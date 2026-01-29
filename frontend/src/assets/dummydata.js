@@ -247,22 +247,22 @@ export const bgColors = [
   "from-[#dcedc8] to-[#fff9c4]",
 ]
 export const obsbooks = [
-  { id: 1, image: Book1, title: "The World Versus Everything Beyond", author: "Like & Michael Cahn", price: 250.20 },
-  { id: 2, image: Book2, title: "The World Versus Everything Beyond", author: "Like & Michael Cahn", price: 350.20 },
-  { id: 3, image: Book3, title: "Twilight Fortress", author: "Oregory Barrett", price: 190.99 },
-  { id: 4, image: Book4, title: "The Silent Echo", author: "Sarah Mitchell", price: 220.99 },
-  { id: 5, image: Book5, title: "Mystic River", author: "Dennis Lehane", price: 182.99 },
-  { id: 6, image: Book6, title: "The Alchemist", author: "Paulo Coelho", price: 166.00 },
-  { id: 7, image: Book7, title: "Atomic Habits", author: "James Clear", price: 209.00 },
-  { id: 8, image: Book8, title: "Thinking, Fast and Slow", author: "Daniel Kahneman", price: 218.00 },
+  { id: 1, image: Book1, title: "The World Versus Everything Beyond", author: "Like & Michael Cahn", price: 20000 },
+  { id: 2, image: Book2, title: "The World Versus Everything Beyond", author: "Like & Michael Cahn", price: 30000 },
+  { id: 3, image: Book3, title: "Twilight Fortress", author: "Oregory Barrett", price: 15000 },
+  { id: 4, image: Book4, title: "The Silent Echo", author: "Sarah Mitchell", price: 7000 },
+  { id: 5, image: Book5, title: "Mystic River", author: "Dennis Lehane", price: 24000 },
+  { id: 6, image: Book6, title: "The Alchemist", author: "Paulo Coelho", price: 17000 },
+  { id: 7, image: Book7, title: "Atomic Habits", author: "James Clear", price: 35000 },
+  { id: 8, image: Book8, title: "Thinking, Fast and Slow", author: "Daniel Kahneman", price: 37000 },
 ]
 
 // HBBOOKS
 export const hbbooks = [
-  { id: 101, title: 'Harry Potter', author: 'J.K. Rowling', price: 255.2, rating: 3, image: HB1 },
-  { id: 102, title: 'Hygge', author: 'Meik Wiking', price: 289.2, rating: 4, image: HB2 },
-  { id: 103, title: 'Fifty Shades Darker', author: 'E. L. James', price: 325.2, rating: 5, image: HB3 },
-  { id: 104, title: 'The Two Towers', author: 'J.R.R. Tolkien', price: 425.2, rating: 4, image: HB4 },
+  { id: 101, title: 'Harry Potter', author: 'J.K. Rowling', price: 27000, rating: 3, image: HB1 },
+  { id: 102, title: 'Hygge', author: 'Meik Wiking', price: 19000, rating: 4, image: HB2 },
+  { id: 103, title: 'Fifty Shades Darker', author: 'E. L. James', price: 30000, rating: 5, image: HB3 },
+  { id: 104, title: 'The Two Towers', author: 'J.R.R. Tolkien', price: 34000, rating: 4, image: HB4 },
 ]
 
 

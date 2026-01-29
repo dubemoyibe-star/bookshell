@@ -1,10 +1,20 @@
-import {  ChevronLeft, ChevronRight, Star } from 'lucide-react'
+import {  ChevronLeft, ChevronRight, Plus, ShoppingCart, Star, Minus } from 'lucide-react'
 import  { useRef } from 'react'
 import { bgColors, obsbooks } from '../assets/dummydata'
+import { useCart } from '../CartContext/CartContext'
 
 const OurBestSellers = () => {
 
   const scrollRef = useRef(null)
+  const { cart, dispatch } = useCart()
+
+  const inCart = (id) => cart?.items?.some(item => item.id === id)
+  const getQty = (id) => cart?.items?.find(item => item.id === id )?.quantity || 0
+
+  const handleAdd = (book) => dispatch({type: 'ADD_ITEM', payload: {...book, quantity: 1 }})
+  const handleInc = (id) => dispatch({type: 'INCREMENT', payload: { id }})
+  const handleDec = (id) => dispatch({type: 'DECREMENT', payload: { id }})
+
   const scrollLeft = () => scrollRef.current.scrollBy({left: -400, behaviour: 'smooth'})
   const scrollRight = () => scrollRef.current.scrollBy({left: 400, behaviour: 'smooth'})
 
@@ -65,8 +75,43 @@ const OurBestSellers = () => {
                       </p>
                   </div>
 
-                  {/*add to cart */}
+                  {/*add controls*/}
+                  <div className='flex flex-col gap-3 md:gap-4 mt-6 md:mt-8'>
+                      <div className='flex flex-col xs:flex-row items-start xs:items-center justify-between gap-3'>
+                        <span className='text-xl md:text-2xl font-bold text-gray-900'>
+                            ₦{book.price.toLocaleString("en-NG", { minimumFractionDigits: 2 })}
+                          </span>
+                            {inCart(book.id) ? (
+                              <div className='flex items-center gap-3 md:gap-4 bg-white/90 backdrop-blur-sm px-3 md:px-4 py-1.5 md:py-2 rounded-lg md:rounded-xl shadow-sm'>
+                                <button 
+                                onClick={() => handleDec(book.id)}  
+                                className='cursor-pointer text-[#1A237E] hover:text-[#43C6AC] p-1 md:p-1.5'>
+                                    <Minus size={18}/>
+                                </button>
+                                <span className='text-gray-900 font-medium w-6 text-center'>{getQty(book.id)}</span>
+                                <button 
+                                onClick={() => handleInc(book.id)}  
+                                className='cursor-pointer text-[#1A237E] hover:text-[#43C6AC] p-1 md:p-1.5'>
+                                    <Plus size={18}/>
+                                </button>
+                              </div>
+                            ): (
+                              <button 
+                              onClick={() => handleAdd(book)}
+                              className='cursor-pointer flex items-center gap-1.5 md:gap-2 px-4 md:px-6 py-2 md:py-3 bg-gradient-to-r from-[#1A237E] to-[#43C6AC] text-white rounded-lg md:rounded-xl font-medium hover:scale-[1.02] transition-transform text-sm md:text-base'>
+                                 <ShoppingCart className='w-4 h-4 md:w-5 md:h-5'/> 
+                                 <span>Add to Collection</span>
+                              </button>
+                            )}
+                      </div>
+                  </div>
                 </div>
+
+                <img 
+                src={book.image} 
+                alt={book.title}
+                className='absolute right-4 md:right-6 bottom-4 md:bottom-6 w-20 h-28 md:w-[120px] md:h-[180px] object-cover rounded-lg md:rounded-xl border-2 md:border-4 border-white shadow-xl md:shadow-2xl transform group-hover:-translate-y-1 md:group-hover:-translate-y-2 transition-transform'
+                />
               </div>
             ))}
           </div>

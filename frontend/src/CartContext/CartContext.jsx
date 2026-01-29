@@ -29,7 +29,7 @@ const cartReducer = (state, action) => {
         return {
           ...state,
           items: state.items.map((i) => i.id === itemToAdd.id && (i.source === itemToAdd.source || (!i.source && !itemToAdd.source))
-            ? {...i, quantity: quantity + itemToAdd.quantity}
+            ? {...i, quantity: i.quantity + itemToAdd.quantity}
           : i
         )
           

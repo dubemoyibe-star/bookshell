@@ -26,7 +26,7 @@ const Banner = () => {
   }
 
   return (
-    <div className='min-h-screen flex items-center justify-center px-4 pt-20 md:pt-28 pb-12 relative bg-gradient-to-br from-[#43C6AC]/90 to-[#2B5876]/90'>
+    <div className='min-h-screen flex items-center justify-center md:px-4 pt-20 md:pt-28 pb-12 relative bg-gradient-to-br from-[#43C6AC]/90 to-[#2B5876]/90'>
       <div className='backdrop-blur-2xl bg-white/95 rounded-xl md:rounded-[2rem] shadow-lg md:shadow-2xl max-w-7xl w-full mx-4 p-6 md:p-8 lg:p-12 relative overflow-hidden'>
           <div className='absolute inset-0 opacity-10 pointer-events-none'>
             <div className='absolute -top-10 -right-10 md:-top-20 md:-right-20 w-48 h-48
@@ -57,29 +57,45 @@ const Banner = () => {
               {/*search  */}
               <form onSubmit={handleSearch} className='space-y-6 md:space-y-8'>
                 <div className='flex gap-0 flex-col sm:flex-row'>
-                  <div className='flex-1 relative group'>
-                      <div className='absolute inset-0 bg-white/90  rounded-lg  md:rounded-xl shadow-sm'/>
-                      <div className='relative flex items-center'>
-                        <Search className='ml-4 mr-4 md:ml-5 w-5 h-5 md:w-6 md:h-6 text-gray-600 group-focus-within:text-[#2B5876]'/>
-
-                        <input 
-                          type="text" 
-                          value={searchQuery}
-                          onChange={(e) => setSearchQuery(e.target.value)}
-                          placeholder='Search Author, titles, or concept...'
-                          className='w-full md:ml-2 pr-4 md:pr-6 py-3 md:py-4 bg-transparent  focus:outline-none focus:border-blue-500
-                          focus:ring-1 focus:ring-blue-500/30 transition-all duration-200 border-0 focus:ring-0 text-gray-800 placeholder-gray-400 text-base md:text-lg font-medium'
-                          >
-                        </input>
-                      </div>
+                  {/* INPUT */}
+                  <div className='flex-1 relative group overflow-hidden
+                                  rounded-lg 
+                                  sm:rounded-r-none'>
+                    <div className='absolute inset-0 bg-white/90 shadow-sm'/>
+                    <div className='relative flex items-center'>
+                      <Search className='ml-4 mr-4 md:ml-5 w-5 h-5 md:w-6 md:h-6 
+                                        text-gray-600 group-focus-within:text-[#2B5876]'/>
+                      <input 
+                        type="text" 
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder='Search Author, titles, or concept...'
+                        className='w-full md:ml-2 pr-4 md:pr-6 py-3 md:py-4 
+                                  bg-transparent focus:outline-none
+                                  transition-all duration-200
+                                  border-0 focus:ring-0
+                                  text-gray-800 placeholder-gray-400 
+                                  text-base md:text-lg font-medium'
+                      />
+                    </div>
                   </div>
 
+                  {/* BUTTON */}
                   <button
-                  type='submit'
-                  className='cursor-pointer px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-[#2B5876] to-[#43C6AC] text-white rounded-lg md:rounded-xl font-medium hover:shadow-lg hover:-translate-x-0.5 transition-all duration-300 shadow-md flex items-center gap-2 justify-center  text-sm md:text-base'>
-                    <Search className='w-4 h-4 md:w-5 md:h-5 '/>
+                    type='submit'
+                    className='cursor-pointer px-6 md:px-8 py-3 md:py-4
+                              bg-gradient-to-r from-[#2B5876] to-[#43C6AC]
+                              text-white font-medium shadow-md
+                              flex items-center gap-2 justify-center
+                              text-sm md:text-base
+                              rounded-lg 
+                              sm:rounded-l-none
+                              hover:shadow-lg hover:-translate-x-0.5
+                              transition-all duration-300'>
+                    <Search className='w-4 h-4 md:w-5 md:h-5'/>
                     <span className='sr-only'>Search</span>
                   </button>
+
                 </div>
               </form>
 
