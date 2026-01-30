@@ -88,7 +88,7 @@ const Navbar = () => {
               )}
             </div>
             </Link>
-            <Link className='relative group'>
+            <Link to='/login' className='relative group'>
                 <div className='absolute -inset-2 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-full opacity-0 blur-md group-hover:opacity-30 transition-opacity duration-500'/>
                 <div className='relative'>
                   <User className='relative h-5 w-5 text-gray-600 group-hover:text-emerald-600 transition-colors duration-300 z-10'/>
