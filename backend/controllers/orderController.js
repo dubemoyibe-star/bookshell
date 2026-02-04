@@ -117,7 +117,7 @@ export const confirmPayment = async (req, res, next) => {
 
     const session = await stripe.checkout.session.retrieve(session_id)
     if(session.payment_status !== 'paid') {
-      return res.status(400).json({ message: 'Message not completed' })
+      return res.status(400).json({ message: 'Payment not completed' })
     }
 
     const order = await Order.findOneAndUpdate({ sessionId: session_id}, 
@@ -163,7 +163,6 @@ export const getOrders = async (req, res, next) => {
         }, { totalOrders: 0, pendingPayment: 0 });
 
         res.json({
-
             counts: {
                 totalOrders: counts.totalOrders,
                 pending: counts.Pending || 0,
