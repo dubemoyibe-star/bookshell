@@ -14,7 +14,7 @@ export async function addToCart(req, res) {
     if(!book) {
       return res.status(404).json({ success: false, message: 'Book not found'})
     }
-    let cart = await cart.findOne({ user: req.user._id})
+    let cart = await cartModel.findOne({ user: req.user._id})
     if(!cart) {
       cart = await cartModel.create({
         user: req.user._id,
@@ -115,7 +115,7 @@ export async function clearUserCart(req, res) {
   try {
     const cart = await cartModel.findOne({user: userId });
     if(!cart) {
-      return res.status(404).json({success: false, message: 'Cart not found'})
+      return res.status(200).json({success: true, message: 'Cart not found'})
     }
 
     cart.items = []

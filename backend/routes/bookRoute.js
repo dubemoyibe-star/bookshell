@@ -5,7 +5,7 @@ import { createBook, deleteBook, getBooks } from '../controllers/bookController.
 const bookRouter = express.Router()
 
 const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => cb(null, '/uploads'),
+  destination: (_req, _file, cb) => cb(null, 'uploads'),
   filename:(_req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`)
 })
 

@@ -1,12 +1,13 @@
 import Order from "../models/orderModel.js";
 import Book from "../models/bookModel.js";
-import Stripe from "stripe";
+// import Stripe from "stripe";
+import axios from 'axios'
 import { v4 as uuidv4 } from "uuid";
 
-const stripe = Stripe(process.env.STRIPE_SECRET_KEY)
+// const stripe = Stripe(process.env.STRIPE_SECRET_KEY)
 
 //CREATE A ORDER
-export const createOrder = async (req, res) => {
+export const createOrder = async (req, res, next) => {
   try {
     const {customer, items, paymentMethod, notes, deliveryDate } = req.body;
 
@@ -55,7 +56,7 @@ export const createOrder = async (req, res) => {
             orderId,
             user: req.user._id,
             shippingAddress,
-            books: orderItems,
+            book: orderItems,
             shippingCharge,
             totalAmount,
             taxAmount,
@@ -64,41 +65,84 @@ export const createOrder = async (req, res) => {
             deliveryDate,
         };
 
+        //forstripe
         //Online Payment
-        if(normalizedPM === "Online Payment" ) {
-          const session = await stripe.checkout.session.create({
-            payment_method_types: ['card'],
-            mode: 'payment',
-            line_items: items.map(o => ({
-              price_data: {
-                currency: 'ngn',
-                product_data: {name: o.name},
-                unit_amount: Math.round(o.price)
+        // if(normalizedPM === "Online Payment" ) {
+        //   const session = await stripe.checkout.sessions.create({
+        //     payment_method_types: ['card'],
+        //     mode: 'payment',
+        //     line_items: items.map(o => ({
+        //       price_data: {
+        //         currency: 'ngn',
+        //         product_data: {name: o.name},
+        //         unit_amount: Math.round(o.price)
+        //       },
+        //       quantity: o.quantity
+        //     })),
+        //     customer_email: customer.email,
+        //     success_url: `${process.env.FRONTEND_URL}/orders/verify?session_id={CHECKOUT_SESSION_ID}`,
+        //     cancel_url: `${process.env.FRONTEND_URL}/checkout?payment_status=cancel`,
+        //     metadata: { orderId }
+        //   });
+
+        //   const newOrder = new Order({
+        //     ...baseOrderData,
+        //     paymentStatus: 'Unpaid',
+        //     sessionId: session.id,
+        //     paymentIntentId: session.payment_intent
+
+        //   })
+        //   await newOrder.save()
+        //   return res.status(201).json({order: newOrder, checkoutUrl: session.url})
+        // }
+
+        //for paystack
+
+        if (normalizedPM === "Online Payment") {
+          try {
+            // Prepare the total amount in kobo (Paystack requires lowest unit)
+            const amountInKobo = Math.round(items.reduce((acc, o) => acc + o.price * o.quantity, 0) * 100);
+
+            // Create Paystack transaction
+            const { data } = await axios.post(
+              'https://api.paystack.co/transaction/initialize',
+              {
+                email: customer.email,
+                amount: amountInKobo,
+                metadata: { orderId },
+                callback_url: `${process.env.FRONTEND_URL}/orders/verify`
               },
-              quantity: o.quantity
-            })),
-            customer_email: customer.email,
-            success_url: `${process.env.FRONTEND_URL}/orders/verify?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${process.env.FRONTEND_URL}/checkout?payment_status=cancel`,
-            metadata: { orderId }
-          });
+              {
+                headers: {
+                  Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+                  'Content-Type': 'application/json'
+                }
+              }
+            );
 
-          const newOrder = new Order({
-            ...baseOrderData,
-            paymentStatus: 'Unpaid',
-            sessionId: session.id,
-            paymentIntentId: session.payment_intent
+            const newOrder = new Order({
+              ...baseOrderData,
+              paymentStatus: 'Unpaid',
+              paystackReference: data.data.reference // store reference for verification
+            });
 
-          })
-          await newOrder.save()
-          return res.status(201).json({order: newOrder, checkoutUrl: session.url})
+            await newOrder.save();
+
+            return res.status(201).json({
+              order: newOrder,
+              checkoutUrl: data.data.authorization_url
+            });
+
+          } catch (err) {
+            console.error("Paystack transaction init error:", err.response?.data || err);
+            return res.status(500).json({ error: "Payment initialization failed" });
+          }
         }
 
         //cash on delivery
         const newOrder = new Order({
           ...baseOrderData,
         })
-        await newOrder.save()
         return res.status(201).json({ order: newOrder, checkoutUrl: null})
   } catch (error) {
       next(error)
@@ -110,25 +154,39 @@ export const createOrder = async (req, res) => {
 
 export const confirmPayment = async (req, res, next) => {
   try {
-    const { session_id } = req.query;
-    if(!session_id) {
-      return res.status(400).json({ message: 'session_id required'})
+    const { reference } = req.query;
+    if (!reference) {
+      return res.status(400).json({ message: 'reference required' });
     }
 
-    const session = await stripe.checkout.session.retrieve(session_id)
-    if(session.payment_status !== 'paid') {
-      return res.status(400).json({ message: 'Payment not completed' })
-    }
-
-    const order = await Order.findOneAndUpdate({ sessionId: session_id}, 
-      { paymentStatus: 'Paid'}, 
-      { new: true})
-      if(!order) {
-        return res.status(404).json({ message: 'Order not found' })
+    // Verify payment with Paystack
+    const { data } = await axios.get(
+      `https://api.paystack.co/transaction/verify/${reference}`,
+      {
+        headers: { Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}` }
       }
+    );
 
-  } catch (error) {
-     next(error)
+    if (data.data.status !== 'success') {
+      return res.status(400).json({ message: 'Payment not completed' });
+    }
+
+    // Update order in DB
+    const order = await Order.findOneAndUpdate(
+      { paystackReference: reference },
+      { paymentStatus: 'Paid' },
+      { new: true }
+    );
+
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    return res.status(200).json({ order });
+
+  } catch (err) {
+    console.error("Paystack verification error:", err.response?.data || err);
+    return res.status(500).json({ message: 'Internal server error' });
   }
 }
 
@@ -195,8 +253,8 @@ export const getOrderById = async (req, res, next) => {
 //get user orders
 export const getUserOrders = async (req, res, next) => {
   try {
-    const orders = await Order.find({ user: req.user._id}).populate('books.book').sort({createdAt: -1})
-    req.status(200).json(orders)
+    const orders = await Order.find({ user: req.user._id}).populate('book.book').sort({createdAt: -1})
+    res.status(200).json(orders)
   } catch (error) {
     console.error('Get users orders error', error)
     res.status(500).json({ error: 'Failed to fetch user order'})

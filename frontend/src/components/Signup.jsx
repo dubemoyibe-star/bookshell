@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowLeft, Eye, EyeOff, Lock, Mail, User  } from 'lucide-react'
 
+const API_BASE = import.meta.env.VITE_API_BASE;
+
 const SignUp = () => {
   const [formData, setFormData ] = useState({ username: "", email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
@@ -20,17 +22,47 @@ const SignUp = () => {
     }
   }, [toast, navigate])
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    const { username, email, password } = formData
-    if(!username.trim() || !email.trim() || !password) {
-      setToast({visible: true, message: "All fields are required", type: "error"})
-      return
+    const {username, email, password} = formData;
+
+    if(!username.trim() || !email.trim() || !password.trim()) {
+      setToast({
+        visible: true,
+        message: 'All fields are required',
+        type: 'error'
+      })
+      return 
     }
-    setToast({visible: true, message: "Creating Account...", type: "info" })
-    setTimeout(() => {
-      setToast({visible: true, message: "Account created!", type: "success"})
-    }, 2000)
+    setToast({
+      visible: true,
+      message: 'Creating Account...',
+      type: 'info'
+    })
+
+    try {
+      const res = await fetch(`${API_BASE}/api/user/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, email, password })
+      })
+
+      const data = await res.json();
+      if(!res.ok) {
+        setToast({
+          visible: true,
+          message: data.message || data.error || 'Registration failed',
+          type: 'error'
+        })
+        return 
+      }
+      setToast({ visible: true, message: 'Account Created...', type: 'success'})
+    } catch (error) {
+      console.log(error)
+      setToast({ visible: true , message: 'Network Error', type: 'error'})
+    }
   }
   return (
     <div className='min-h-screen flex items-center justify-center bg-gray-50 p-4'>

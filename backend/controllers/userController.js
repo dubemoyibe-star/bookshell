@@ -3,7 +3,7 @@ import validator from 'validator'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 
-const JWT_SECRET = process.env.JWT_SECRET  || 'your_jwt_secret_here'
+const JWT_SECRET = process.env.JWT_SECRET
 const TOKEN_EXPIRES = '24h'
 
 const createToken = (userId) => 
@@ -20,14 +20,25 @@ export async function registerUser(req, res) {
     return res.status(400).json({success: false, message: 'Invalid email'})
   }
 
-  if(password.length < 8) {
-    return res.status(400).json({success: true, message: 'Password must be at least 8 characters'})
-  }
+  if (
+      !validator.isStrongPassword(password, {
+        minLength: 8,
+        minLowercase: 1,
+        minUppercase: 1,
+        minNumbers: 1,
+        minSymbols: 0
+      })
+    ) {
+      return res.status(400).json({
+        message:
+          "Password must be at least 8 characters and include uppercase, lowercase, and a number."
+      });
+    }
 
   try {
     const userExists = await userModel.findOne({ email })
     if(userExists) {
-      return res.status(400).json({success: false, messsage: 'User already exists'})
+      return res.status(409).json({success: false, message: 'User already exists'})
     }
     const hashedPassword = await bcrypt.hash(password, 10)
 

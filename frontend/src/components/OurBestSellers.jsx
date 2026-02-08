@@ -1,19 +1,43 @@
 import {  ChevronLeft, ChevronRight, Plus, ShoppingCart, Star, Minus } from 'lucide-react'
-import  { useRef } from 'react'
-import { bgColors, obsbooks } from '../assets/dummydata'
+import  { useEffect, useRef, useState } from 'react'
+import axios from 'axios'
+import {ClipLoader} from 'react-spinners'
+import { bgColors } from '../assets/dummydata'
 import { useCart } from '../CartContext/CartContext'
+
+const API_BASE = import.meta.env.VITE_API_BASE;
 
 const OurBestSellers = () => {
 
   const scrollRef = useRef(null)
-  const { cart, dispatch } = useCart()
+  const { cart , addToCart, updateCartItem } = useCart()
+  const [books, setBooks] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState(null)
 
   const inCart = (id) => cart?.items?.some(item => item.id === id)
   const getQty = (id) => cart?.items?.find(item => item.id === id )?.quantity || 0
 
-  const handleAdd = (book) => dispatch({type: 'ADD_ITEM', payload: {...book, quantity: 1 }})
-  const handleInc = (id) => dispatch({type: 'INCREMENT', payload: { id }})
-  const handleDec = (id) => dispatch({type: 'DECREMENT', payload: { id }})
+  //fetch book 
+  useEffect(() => {
+    const fetchBooks = async () => {
+      setLoading(true)
+      try {
+        const res = await axios.get(`${API_BASE}/api/book`)
+        setBooks(Array.isArray(res.data) ? res.data : res.data.books || [])
+      } catch (error) {
+        console.error('Error fetching bestseller books', error)
+        setError(error.message|| 'Failed to load books')
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchBooks();
+  }, [])
+
+  const handleAdd = (book) => { addToCart({ id: book._id, title: book.title, price: book.price, author: book.author,  quantity: 1})}
+  const handleInc = (id) => updateCartItem({ id, quantity: getQty(id) + 1})
+  const handleDec = (id) => updateCartItem({ id, quantity: getQty(id) - 1})
 
   const scrollLeft = () => scrollRef.current.scrollBy({left: -400, behaviour: 'smooth'})
   const scrollRight = () => scrollRef.current.scrollBy({left: 400, behaviour: 'smooth'})
@@ -51,16 +75,28 @@ const OurBestSellers = () => {
             </div>
           </div>
 
+
+          {loading && (
+            <div className="flex flex-col items-center gap-2 my-8">
+              <ClipLoader size={40} color="#ef4444" loading={loading} />
+              <p className="text-gray-600">Loading best sellers...</p>
+            </div>
+          )}
+          {error && 
+          <div className="my-8">
+            <p className="text-gray-600 text-center">{error}</p>
+          </div>}
+
           {/*books section */}
           <div ref={scrollRef} className=' flex overflow-x-auto gap-4 md:gap-8 pb-6 md:pb-8 scrollbar-hide scroll-smooth snap-x'>
-            {obsbooks.map((book, index) => (
+            {books.map((book, index) => (
               <div 
-              key={book.id}
+              key={book._id}
               className={`flex-shrink-0 w-[calc(100vw-2rem)] sm:w-96 md:w-[400px] rounded-2xl md:rounded-3xl overflow-hidden bg-gradient-to-br ${bgColors[index % bgColors.length]} shadow-lg md:shadow-xl relative group transition-all duration-300 hover:shadow-xl md:hover:shadow-2xl snap-center`}>
                 <div className='p-6 md:p-8 pb-48 md:pb-60 flex flex-col justify-between h-full relative z-10'>
                   <div className='space-y-3 md:space-y-4'>
                       <div className='flex items-center gap-1 md:gap-1.5'>
-                        {[...Array(5)].map((_, i) => (
+                        {[...Array(Math.floor(book.rating || 0))].map((_, i) => (
                           <Star key={i} className='h-4 w-4 md:h-5 md:w-5 text-amber-400 fill-amber-400' />
                         ))}
                       </div>
@@ -71,7 +107,7 @@ const OurBestSellers = () => {
                       </div>
 
                       <p className='text-gray-600 text-xs md:text-sm leading-relaxed line-clamp-3'>
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloribus ullam debitis, saepe autem a nesciunt necessitatibus ut provident, cupiditate deleniti modi. Pariatur voluptas enim eos, non molestiae minus aperiam provident.
+                        {book.description}
                       </p>
                   </div>
 
@@ -81,16 +117,16 @@ const OurBestSellers = () => {
                         <span className='text-xl md:text-2xl font-bold text-gray-900'>
                             ₦{book.price.toLocaleString("en-NG", { minimumFractionDigits: 2 })}
                           </span>
-                            {inCart(book.id) ? (
+                            {inCart(book._id) ? (
                               <div className='flex items-center gap-3 md:gap-4 bg-white/90 backdrop-blur-sm px-3 md:px-4 py-1.5 md:py-2 rounded-lg md:rounded-xl shadow-sm'>
                                 <button 
-                                onClick={() => handleDec(book.id)}  
+                                onClick={() => handleDec(book._id)}  
                                 className='cursor-pointer text-[#1A237E] hover:text-[#43C6AC] p-1 md:p-1.5'>
                                     <Minus size={18}/>
                                 </button>
-                                <span className='text-gray-900 font-medium w-6 text-center'>{getQty(book.id)}</span>
+                                <span className='text-gray-900 font-medium w-6 text-center'>{getQty(book._id)}</span>
                                 <button 
-                                onClick={() => handleInc(book.id)}  
+                                onClick={() => handleInc(book._id)}  
                                 className='cursor-pointer text-[#1A237E] hover:text-[#43C6AC] p-1 md:p-1.5'>
                                     <Plus size={18}/>
                                 </button>
@@ -108,7 +144,7 @@ const OurBestSellers = () => {
                 </div>
 
                 <img 
-                src={book.image} 
+                src={book.image.startsWith('http') ? book.image : `${API_BASE}${book.image}`} 
                 alt={book.title}
                 className='absolute right-4 md:right-6 bottom-4 md:bottom-6 w-20 h-28 md:w-[120px] md:h-[180px] object-cover rounded-lg md:rounded-xl border-2 md:border-4 border-white shadow-xl md:shadow-2xl transform group-hover:-translate-y-1 md:group-hover:-translate-y-2 transition-transform'
                 />

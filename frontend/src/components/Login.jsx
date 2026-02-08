@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight , Mail, Lock, Eye, EyeOff} from "lucide-react";
 
+const API_BASE = import.meta.env.VITE_API_BASE;
+
 const Login = () => {
 
   const [formData, setFormData ] = useState({ username: "", email: "", password: "" });
@@ -21,17 +23,36 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if(!formData.email || !formData.password){
-      setToast({visible: true, message: "All fields are required", type: "error"})
+    const { email, password } = formData
+
+    if(!email.trim || !password.trim()) {
+      setToast({
+        visible: true,
+        message: 'All fields are required',
+        type: 'error'
+      })
       return
     }
     setIsSubmitting(true)
+
     try {
-      localStorage.setItem('authToken', 'demo-token')
-      setToast({visible: true, message: "Login successful"})
-      setTimeout(() => navigate('/'), 2000)
-    } catch {
-      setToast({visible: true, message: "Login failed", type: "error"})
+      const res = await fetch(`${API_BASE}/api/user/login`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email, password})
+      })
+
+      const data = await res.json()
+      if(!res.ok) {
+        throw new Error(data.message || 'Invalid credentials')
+      }
+      localStorage.setItem('auth-Token', data.token)
+      setToast({ visible: true, message: 'Login Successful', type: 'success'})
+      setTimeout(() => navigate('/'), 3000)
+    } catch (error) {
+      setToast({ visible: true, message: error.message, type: 'error'})
     } finally {
       setIsSubmitting(false)
     }
@@ -39,11 +60,11 @@ const Login = () => {
   }
 
   const handleSignout = () => {
-    localStorage.removeItem('authToken')
-    setToast({visible: true, message: "Signed out  successfullly", type: "success"})
+    localStorage.removeItem('auth-Token')
+    setToast({visible: true, message: "Signed out successfully", type: "success"})
   }
 
-  const isLoggedIn = localStorage.getItem('authToken')
+  const isLoggedIn = localStorage.getItem('auth-Token')
 
   return (
     <div className='min-h-screen flex items-center justify-center bg-gray-50 p-4'>
@@ -114,7 +135,7 @@ const Login = () => {
             <button 
             type="submit" 
             disabled={isSubmitting}
-            className="w-full bg-[#43C6AC] text-white py-3 rounded-lg hover:bg-[#368f7a] transition-colors disabled:opacity-70">
+            className="cursor-pointer w-full bg-[#43C6AC] text-white py-3 rounded-lg hover:bg-[#368f7a] transition-colors disabled:opacity-70">
               {isSubmitting ? 'Signing in...' : 'Sign in'}
             </button>
           </form>

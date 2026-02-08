@@ -43,7 +43,7 @@ const orderSchema = new mongoose.Schema({
     default: "Unpaid",
   },
 
-  sessionId: { type: String },
+  paystackReference: { type: String },
   paymentIntentId: { type: String },
 
   notes: { type: String },
@@ -62,11 +62,10 @@ const orderSchema = new mongoose.Schema({
   timestamps: true
 })
 
-orderSchema.pre('validate', function(next) {
+orderSchema.pre('validate', async function() {
   if(this.totalAmount != null && this.taxAmount != null) {
     this.finalAmount = this.totalAmount + this.taxAmount + (this.shippingCharge || 0)  
   }
-  next()
 })
 
 const Order = mongoose.models.Order || mongoose.model('Order', orderSchema);

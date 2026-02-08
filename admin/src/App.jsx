@@ -1,11 +1,22 @@
 import React from 'react'
+import Sidebar from './components/Sidebar'
+import { Route, Routes } from 'react-router-dom'
+import AddBook from './components/AddBook'
+import ListBook from './components/ListBook'
+import Orders from './components/Orders'
 
 const App = () => {
   return (
-    <div>
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
+    <div className='flex min-h-screen bg-gray-50'>
+      <Sidebar />
+
+      <main className='flex-1 overflow-auto'>
+        <Routes>
+          <Route path='/' element={<AddBook />}/>
+          <Route path='/list-books' element={<ListBook />}/>
+          <Route path='/orders' element={<Orders />}/>
+        </Routes>
+      </main>
     </div>
   )
 }

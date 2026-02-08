@@ -1,26 +1,71 @@
-import { useEffect } from 'react'
-import { Book, BookOpen, ShoppingBag , Trash, Minus, Plus, ArrowRight} from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Book, BookOpen, ShoppingBag, Minus, Plus, ArrowRight, Trash2} from 'lucide-react'
 import { useCart } from '../CartContext/CartContext';
 import { Link } from 'react-router-dom'
+import axios from 'axios';
+
+const API_BASE = `${import.meta.env.VITE_API_BASE}/api`
+const IMG_BASE = API_BASE.replace('/api', '')
 
 const Cart = () => {
 
-  const { cart, dispatch } = useCart();
+  const { cart, updateCartItem, removeFromCart } = useCart();
   const total = cart.items.reduce((sum, i) => sum + i.price * i.quantity, 0)
+
+  const [images, setImages] = useState([])
+
+  useEffect(() => {
+    axios.get(`${API_BASE}/book`)
+    .then(({data}) => {
+      const map = {}
+      data.forEach((book) => {
+        map[book._id] = book.image
+      })
+      console.log('Images keys map', Object.keys(map))
+      setImages(map)
+    })
+    .catch((err) => console.error('Failed to load books', err))
+  }, [])
 
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart))
   }, [cart])
 
-  const getImageSource = (item) => {
-    if(typeof item.image === 'string') return item.image
-    return item.image?.default
+  const getImageSrc = (item) => {
+    const relPath = images[item.id]
+    if(relPath) {
+      return `${IMG_BASE}${relPath}`
+    }
   }
 
   //increasing decreasing and remove 
-  const inc = (item) => dispatch({type: "INCREMENT", payload: {id: item.id, source: item.source}})
-  const dec = (item) => dispatch({type: "DECREMENT", payload: {id: item.id, source: item.source}})
-  const remove = (item) => dispatch({type: "REMOVE_ITEM", payload: {id: item.id, source: item.source}})
+  const inc = (item) => 
+    updateCartItem({
+      id: item.id, 
+      source: item.source, 
+      quantity: item.quantity + 1
+    })
+
+  const dec = (item) => {
+    const newQty = item.quantity - 1
+    if(newQty) {
+      updateCartItem({
+        id: item.id,
+        sourec: item.source,
+        quantity: newQty
+      })
+    } else {
+      removeFromCart({
+        id: item.id,
+        source: item.source,
+
+      })
+    }
+  }
+  const remove = (item) => removeFromCart({
+    id: item.id,
+    source: item.source
+  })
 
   return (
     <div className='min-h-screen bg-gray-50 pt-24 pb-12 px-4 sm:px-6 lg:px-8'>
@@ -58,7 +103,7 @@ const Cart = () => {
                 <div key={`${item.source}.${item.id}`} className='bg-white rounded-lg md:rounded-xl p-4 md:p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow'>
                   <div className='flex gap-4 md:gap-6'>
                     <img 
-                    src={getImageSource(item)} 
+                    src={getImageSrc(item)} 
                     alt={item.title} 
                     className='w-16 h-20 md:w-24 md:h-32 object-cover rounded-md md:rounded-lg border border-gray-200'/>
                     <div className='flex-1'>
@@ -74,7 +119,7 @@ const Cart = () => {
                       <button
                       onClick={() => remove(item)}
                       className='cursor-pointer text-gray-400 hover:text-red-600 transition-colors p-1'>
-                        <Trash className='h-4 w-4 md:h-5 md:w-5'/>
+                        <Trash2 className='h-4 w-4 md:h-5 md:w-5'/>
                       </button>
                       </div>
 
@@ -153,10 +198,10 @@ const Cart = () => {
                 </div>
               </div>
 
-              <button className='cursor-pointer w-full flex items-center justify-center gap-2 px-5 py-3 md:px-6 md:py-4 bg-gradient-to-r from-[#2B5876] to-[#43C6AC] text-white rounded-lg md:rounded-xl font-semibold hover:opacity-90 transition-opacity text-sm md:text-base mb-3 md:mb-4'>
+              <Link to='/checkout' className='cursor-pointer w-full flex items-center justify-center gap-2 px-5 py-3 md:px-6 md:py-4 bg-gradient-to-r from-[#2B5876] to-[#43C6AC] text-white rounded-lg md:rounded-xl font-semibold hover:opacity-90 transition-opacity text-sm md:text-base mb-3 md:mb-4'>
                 Checkout Now
                 <ArrowRight className='h-4 w-4 md:h-5 md:w-5'/>
-              </button>
+              </Link>
 
               <Link to='/books' className='cursor-pointer w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 md:px-6 md:py-3 rounded-lg md:rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors text-sm md:text-base'>
                 <BookOpen className='h-4 w-4 md:h-5 md:w-5'/>

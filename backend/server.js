@@ -10,7 +10,7 @@ import cartRouter from './routes/cartRoute.js';
 import orderRouter from './routes/orderRoute.js';
 
 const app = express();
-const port = 4000
+const port = process.env.PORT
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
@@ -18,7 +18,7 @@ const __dirname = path.dirname(__filename)
 //middleware
 app.use(cors({
   origin: (origin, callback) => {
-    const allowedOrigins = ['http://localhost:5173', 'http://localhost:5174'];
+    const allowedOrigins = [ process.env.FRONTEND_URL, process.env.ADMIN_URL];
     if(!origin || allowedOrigins.includes(origin)) {
       callback(null, true)
     }else{
