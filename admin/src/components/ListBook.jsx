@@ -166,7 +166,7 @@ const ListBook = () => {
                       <div className='flex items-center'>
                         {book.image && (
                           <img 
-                          src={`http://localhost:4000${book.image}`} 
+                          src={`${API_BASE}${book.image}`} 
                           alt={book.title} 
                           className='h-10 w-8 object-cover rounded'/>
                         )}
