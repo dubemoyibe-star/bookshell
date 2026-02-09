@@ -143,6 +143,8 @@ export const createOrder = async (req, res, next) => {
         const newOrder = new Order({
           ...baseOrderData,
         })
+        await newOrder.save()
+
         return res.status(201).json({ order: newOrder, checkoutUrl: null})
   } catch (error) {
       next(error)

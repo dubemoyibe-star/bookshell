@@ -11,6 +11,7 @@ import Login from './components/Login'
 import SignUp from './components/SignUp'
 import ProtectedRoute from './pages/ProtectedRoute'
 import VerifyPaymentPage from './pages/VerifyPaymentPage'
+import NotFound from './components/NotFound'
 
 const App = () => {
   return (
@@ -33,6 +34,8 @@ const App = () => {
 
     <Route path='/login' element={<Login />} />
     <Route path='/signup' element={<SignUp />} />
+
+    <Route path='*' element={<NotFound />} />
    </Routes> 
   )
 }
