@@ -5,7 +5,7 @@ import { BookPlus, Star } from 'lucide-react'
   const initialFormData = {
     title: "",
     author: "",
-    price: "",
+    price: 0,
     image: null,
     rating: 4,
     category: "Fiction",
