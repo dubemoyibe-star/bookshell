@@ -341,7 +341,7 @@ const Checkout = () => {
                   {[
                     { label: 'Subtotal', value: `₦${subtotal.toLocaleString("en-NG", { minimumFractionDigits: 2 })}` },
                     { label: 'Shipping', value: 'FREE' },
-                    { label: 'Tax', value: `₦${subtotal.toLocaleString("en-NG", { minimumFractionDigits: 2 })}`}
+                    { label: 'Tax', value: `₦${tax.toLocaleString("en-NG", { minimumFractionDigits: 2 })}`}
                   ].map((item, i) => (
                     <div key={i} className="flex justify-between">
                       <span className="text-gray-600">{item.label}</span>
