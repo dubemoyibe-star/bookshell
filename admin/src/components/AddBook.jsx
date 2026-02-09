@@ -56,8 +56,7 @@ const AddBook = () => {
     } catch (error) {
       console.error('AddBooks error response', error.response?.data, error);
       setMessage({
-        type: 'error',
-        text: error.response?.data?.message || 'Failed to add book'
+        type: error.error || 'Failed to add book'
       })
     } finally {
       setLoading(false)
