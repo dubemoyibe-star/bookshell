@@ -312,10 +312,8 @@ const Checkout = () => {
                       <div key={item.id} className="flex items-center">
                           <img
                           src={
-                            images[item.id]
-                              ? `${IMG_BASE}${images[item.id]}`
-                              : "/placeholder.png"
-                          }
+                              images[item.id]?.url
+                            }
                           alt={item.title}
                           className="w-16 h-16 object-cover rounded-xl mr-4"
                         />

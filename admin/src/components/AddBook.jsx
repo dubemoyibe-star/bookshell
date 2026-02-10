@@ -5,7 +5,7 @@ import { BookPlus, Star } from 'lucide-react'
   const initialFormData = {
     title: "",
     author: "",
-    price: 0,
+    price: "",
     image: null,
     rating: 4,
     category: "Fiction",
@@ -56,7 +56,8 @@ const AddBook = () => {
     } catch (error) {
       console.error('AddBooks error response', error.response?.data, error);
       setMessage({
-        type: error.error || 'Failed to add book'
+        type: 'error',
+        text: error.response?.data?.message || 'Failed to add book'
       })
     } finally {
       setLoading(false)
@@ -236,7 +237,7 @@ const AddBook = () => {
           )}
 
           {message.text && (
-            <p className={`mt-2 text-${message.type === 'success' ? 'green' : 'red'}`}>{message.text}</p>
+            <p className={`mt-2 text-${message.type === 'success' ? 'green-500' : 'red-500'}`}>{message.text}</p>
           )}
 
           <div className='mt-8 flex justify-center'>
@@ -245,7 +246,7 @@ const AddBook = () => {
             type='submit'
             className='cursor-pointer flex items-center gap-2 px-6 py-3 bg-[#43C6AC] text-white font-medium rounded-lg hover:bg-[#5ba193] transition-colors'>
               <BookPlus className='h-5 w-5'/>
-              <span>Add Book to Collection</span>
+              <span>{loading ? 'Adding book to collection...' : 'Add Book to Collection'}</span>
             </button>
           </div>
         </form>

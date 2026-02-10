@@ -141,7 +141,7 @@ const Books = () => {
                 <div key={book._id} className='group bg-white/90 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1'>
                   <div className='relative aspect-square mb-4 md:mb-6 overflow-hidden rounded-lg md:rounded-xl'>
                     <img 
-                    src={book.image.startsWith('http') ? book.image : `${API_BASE}${book.image}`} 
+                    src={`${book.image.url}`} 
                     alt={book.title} 
                     className='w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300'/>
                   </div>

@@ -144,7 +144,7 @@ const OurBestSellers = () => {
                 </div>
 
                 <img 
-                src={book.image.startsWith('http') ? book.image : `${API_BASE}${book.image}`} 
+                src={`${book.image.url}`} 
                 alt={book.title}
                 className='absolute right-4 md:right-6 bottom-4 md:bottom-6 w-20 h-28 md:w-[120px] md:h-[180px] object-cover rounded-lg md:rounded-xl border-2 md:border-4 border-white shadow-xl md:shadow-2xl transform group-hover:-translate-y-1 md:group-hover:-translate-y-2 transition-transform'
                 />

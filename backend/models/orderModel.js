@@ -14,7 +14,10 @@ const itemSchema = new mongoose.Schema({
   book:     { type: mongoose.Schema.Types.ObjectId, ref: "Book", required: true },
   title:    { type: String, required: true },
   author:   { type: String, required: true },
-  image:    { type: String },
+  image:    {
+              url: String,
+              public_id: String
+            },
   price:    { type: Number, required: true },
   quantity: { type: Number, required: true, default: 1 },
 }, { _id: false });

@@ -14,29 +14,29 @@ const Cart = () => {
 
   const [images, setImages] = useState([])
 
-  useEffect(() => {
-    axios.get(`${API_BASE}/book`)
-    .then(({data}) => {
+useEffect(() => {
+  axios.get(`${API_BASE}/book`)
+    .then(({ data }) => {
       const map = {}
       data.forEach((book) => {
-        map[book._id] = book.image
+        map[book._id] = book.image; // store { url, public_id }
       })
-      console.log('Images keys map', Object.keys(map))
       setImages(map)
     })
     .catch((err) => console.error('Failed to load books', err))
-  }, [])
+}, [])
 
   useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cart))
   }, [cart])
 
-  const getImageSrc = (item) => {
-    const relPath = images[item.id]
-    if(relPath) {
-      return `${IMG_BASE}${relPath}`
-    }
+const getImageSrc = (item) => {
+  const imageObj = images[item.id]
+  if (imageObj?.url) {
+    return imageObj.url;
   }
+  return '/placeholder.png';
+}
 
   //increasing decreasing and remove 
   const inc = (item) => 

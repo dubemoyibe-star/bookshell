@@ -292,7 +292,7 @@ const MyOrders = () => {
                       <div key={i} className="flex items-start space-x-4 border-b pb-4">
                         {/* Book image */}
                         <img
-                          src={`${API_BASE}${book.image}`}
+                          src={`${book.image.url}`}
                           alt={book.title}
                           className="w-16 h-20 object-cover rounded"
                         />

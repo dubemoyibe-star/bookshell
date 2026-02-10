@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { useCart } from '../CartContext/CartContext'
-import { hbbooks } from '../assets/dummydata'
 import { ClipLoader } from 'react-spinners'
 import { Star, Plus, Minus, ShoppingCart, ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
@@ -67,7 +66,7 @@ const HomeBooks = () => {
                   <div key={book._id} className='group relative'>
                     <div className='relative h-72 overflow-hidden rounded-xl border-4 border-[#43C6AC]/20 mb-4'>
                       <img 
-                      src={book.image.startsWith('http') ? book.image : `${API_BASE}${book.image}`} 
+                      src={`${book.image.url}`} 
                       alt={book.title} 
                       className='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105' />
                       <div className='absolute top-2 right-2 bg-white/90 px-3 py-1 rounded-full flex items-center'>

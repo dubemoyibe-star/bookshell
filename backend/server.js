@@ -40,6 +40,18 @@ app.use('/api/book', bookRouter)
 app.use('/api/cart', cartRouter)
 app.use('/api/order', orderRouter)
 
+// error handling middleware
+app.use((err, req, res, next) => {
+  console.error(
+    "Express Error:",
+    JSON.stringify(err, Object.getOwnPropertyNames(err), 2)
+  );
+
+  res.status(err.status || 500).json({
+    message: err.message || "Internal Server Error",
+  });
+});
+
 app.get('/' , (req, res) => {
   res.send('API IS WORKING')
 })

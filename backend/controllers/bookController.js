@@ -1,12 +1,14 @@
 import Book from "../models/bookModel.js";
-import path from "path";
-import fs from "fs";
+import { v2 as cloudinary } from 'cloudinary';
 
 export const createBook = async (req, res, next) => {
   try {
-    const filename = req.file?.filename ?? null;
-    const imagePath = filename ? `/uploads/${filename}` : null;
     const {title, author, price, rating, category, description} = req.body;
+
+    if (!req.file) {
+      return res.status(400).json({ message: "Image is required" });
+    }
+
     const book = new Book({
       title,
       author,
@@ -14,12 +16,14 @@ export const createBook = async (req, res, next) => {
       rating,
       category,
       description,
-      image: imagePath
+      image: {
+        url: req.file.path,
+        public_id: req.file.filename
+      }
     })
     const saved = await book.save();
     res.status(201).json(saved)
   } catch (err) {
-    res.status(500).json({ error: err.message });
     next(err)
   }
 }
@@ -41,12 +45,10 @@ export const deleteBook = async (req, res, next) => {
       res.status(404).json({ message: 'Book not found'})
     }
 
-    if(book.image) {
-      const filepath = path.join(process.cwd(), book.image)
-      fs.unlink(filepath, (err) => {
-        if (err) console.warn('failed to delete the image')
-      })
+    if (book.image?.public_id) {
+      await cloudinary.uploader.destroy(book.image.public_id);
     }
+
     res.json({ message: 'Book deleted successfully'})
   } catch (err) {
     next(err)
