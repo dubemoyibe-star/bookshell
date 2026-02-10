@@ -5,6 +5,7 @@ import { navItems } from '../assets/dummydata'
 import { Menu, User, X } from 'lucide-react'
 import { FaOpencart } from 'react-icons/fa'
 import { useCart } from '../CartContext/CartContext'
+import { motion } from 'framer-motion'
 
 
 
@@ -24,7 +25,11 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   })
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 bg-white transition-all duration-500 
+    <motion.nav 
+    initial={{y: -40, opacity: 0}}
+    animate={{y: 0, opacity: 1}}
+    transition={{duration: 0.3}}
+    className={`fixed top-0 left-0 right-0 z-50 bg-white transition-all duration-500 
       ${scrolled ? "shadow-md py-2" : "py-4"}`}>
       <div className='container mx-auto px-4 md:px-4 md:text-xs'>
         <div className='flex items-center justify-between'>
@@ -161,7 +166,7 @@ const Navbar = () => {
           </div>
         </div>
       )}
-    </nav>
+    </motion.nav>
   )
 }
 

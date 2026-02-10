@@ -2,6 +2,7 @@ import { Search } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { words } from '../assets/dummydata'
+import { motion } from 'framer-motion'
 
 import img  from '../assets/banner1.png'
 const Banner = () => {
@@ -27,7 +28,12 @@ const Banner = () => {
 
   return (
     <div className='min-h-screen flex items-center justify-center md:px-4 pt-20 md:pt-28 pb-12 relative bg-gradient-to-br from-[#43C6AC]/90 to-[#2B5876]/90'>
-      <div className='backdrop-blur-2xl bg-white/95 rounded-xl md:rounded-[2rem] shadow-lg md:shadow-2xl max-w-7xl w-full mx-4 p-6 md:p-8 lg:p-12 relative overflow-hidden'>
+      <motion.div 
+      initial={{y: 40, opacity: 0}}
+      whileInView={{y: 0, opacity: 1}}
+      viewport={{once: true}}
+      transition={{duration: 0.5}}
+      className='backdrop-blur-2xl bg-white/95 rounded-xl md:rounded-[2rem] shadow-lg md:shadow-2xl max-w-7xl w-full mx-4 p-6 md:p-8 lg:p-12 relative overflow-hidden'>
           <div className='absolute inset-0 opacity-10 pointer-events-none'>
             <div className='absolute -top-10 -right-10 md:-top-20 md:-right-20 w-48 h-48
             md:w-96 md:h-96 bg-[#F8FFAE]/10 rounded-full blur-xl md:blur-3xl'/>
@@ -39,7 +45,12 @@ const Banner = () => {
             {/*text section */}
             <div className='space-y-6 md:space-y-8'>
               <div className='space-y-4 md:space-y-6'>
-                <h1 className='text-4xl sm:text-5xl md:text-6xl font-bold leading-tight'>
+                <motion.h1 
+                initial={{y: 40, opacity: 0}}
+                whileInView={{y: 0, opacity: 1}}
+                viewport={{once: true}}
+                transition={{duration: 0.8}}
+                className='text-4xl sm:text-5xl md:text-6xl font-bold leading-tight'>
                   <span className='text-transparent bg-clip-text bg-gradient-to-r from-[#2B5876] to-[#43C6AC]'>
                    Mindful
                   </span>
@@ -47,16 +58,26 @@ const Banner = () => {
                   <span className='font-light text-3xl sm:text-4xl md:text-5xl text-gray-800'>
                     Reading Experience
                   </span>
-                  </h1>
-                  <p className='text-gray-700 text-base md:text-lg lg:text-xl leading-relaxed max-w-2xl'>
+                  </motion.h1>
+                  <motion.p 
+                  initial={{y: 40, opacity: 0}}
+                  whileInView={{y: 0, opacity: 1}}
+                  viewport={{once: true}}
+                  transition={{duration: 0.8, delay: 0.1}}
+                  className='text-gray-700 text-base md:text-lg lg:text-xl leading-relaxed max-w-2xl'>
                     Curated knowledge journeys that challenge perceptions and inspire growth.
                     Discover transformative content crafted for the modern intellect.
-                  </p>
+                  </motion.p>
               </div>
 
               {/*search  */}
               <form onSubmit={handleSearch} className='space-y-6 md:space-y-8'>
-                <div className='flex gap-0 flex-col sm:flex-row'>
+                <motion.div 
+                initial={{x: -40, opacity: 0}}
+                whileInView={{x: 0, opacity: 1}}
+                viewport={{once: true}}
+                transition={{duration: 0.8}}
+                className='flex gap-0 flex-col sm:flex-row'>
                   {/* INPUT */}
                   <div className='flex-1 relative group overflow-hidden
                                   rounded-lg 
@@ -96,7 +117,7 @@ const Banner = () => {
                     <span className='sr-only'>Search</span>
                   </button>
 
-                </div>
+                </motion.div>
               </form>
 
               {/*stats */}
@@ -106,20 +127,30 @@ const Banner = () => {
                   {number: '1.2M', label: 'Readers'},
                   {number: '240k+', label: 'Titles'}
                 ].map((stat, i) => (
-                  <div className='pr-4 md:pr-6 border-r last:border-0 border-gray-200' key={i}>
+                  <motion.div 
+                  initial={{x: -40, opacity: 0}}
+                  viewport={{once: true}}
+                  whileInView={{x: 0, opacity: 1}}
+                  transition={{duration: 0.8, delay: i * 0.1}}
+                  className='pr-4 md:pr-6 border-r last:border-0 border-gray-200' key={i}>
                     <div className='text-xl md:text-2xl font-bold text-[#2B5876]'>
                       {stat.number}
                     </div>
                     <div className='text-gray-600 text-xs md:text-sm'>
                         {stat.label}
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
             </div>
 
             {/*images */}
-            <div className='relative group flex justify-center mt-8 lg:mt-0'>
+            <motion.div
+            initial={{scale: 0.9, opacity: 0}}
+            whileInView={{scale: 1, opacity:1}}
+            viewport={{once: true}}
+            transition={{duration: 0.8 }}
+            className='relative group flex justify-center mt-8 lg:mt-0'>
               <div className='relative w-full max-w-md lg:max-w-lg aspect-square bg-gradient-to-br from-white/20 to-[#F8FFAE]/10 rounded-xl md:rounded-2xl overflow-hidden'>
                 <img 
                 src={img} 
@@ -128,7 +159,7 @@ const Banner = () => {
                 />
                 <div className='absolute inset-0 mix-blend-overlay bg-gradient-to-t from-[#2B5876]/10 to-transparent'/>
               </div>
-            </div>
+            </motion.div>
           </div>
 
           {/*footer texts */}
@@ -137,7 +168,7 @@ const Banner = () => {
                 Curated Collections • Award-Winning Authors • Critical Analysis • Cultural Perspective
               </div>
           </div>
-      </div>
+      </motion.div>
     </div>
   )
 }

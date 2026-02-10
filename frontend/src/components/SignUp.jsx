@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ArrowLeft, Eye, EyeOff, Lock, Mail, User  } from 'lucide-react'
+import { motion } from 'framer-motion';
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 
@@ -74,7 +75,12 @@ const SignUp = () => {
         </div>
       )}
 
-      <div className='w-full max-w-md bg-white rounded-lg shadow-sm p-8'>
+      <motion.div 
+      initial={{scale: 0.9, opacity: 0}}
+      whileInView={{scale: 1, opacity:1}}
+      viewport={{once: true}}
+      transition={{ duration: 0.8}}
+      className='w-full max-w-md bg-white rounded-lg shadow-sm p-8'>
         <Link 
         to='/'
         className='flex items-center text-gray-600 mb-8'>
@@ -154,7 +160,7 @@ const SignUp = () => {
             Sign in
           </Link>
         </div>
-      </div>
+      </motion.div>
     </div>
   )
 }

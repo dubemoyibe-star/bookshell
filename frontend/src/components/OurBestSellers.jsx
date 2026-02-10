@@ -4,6 +4,7 @@ import axios from 'axios'
 import {ClipLoader} from 'react-spinners'
 import { bgColors } from '../assets/dummydata'
 import { useCart } from '../CartContext/CartContext'
+import { motion } from 'framer-motion'
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 
@@ -47,12 +48,22 @@ const OurBestSellers = () => {
         <div className='container mx-auto px-4 md:px-6'>
           <div className='flex flex-col md:flex-row justify-between items-start md:items-center mb-8 md:mb-12 gap-4 md:gap-6'>
             <div className='space-y-1 md:space-y-2'>
-              <h1 className='text-3xl md:text-4xl font-bold text-gray-900'>
+              <motion.h1 
+              initial={{y: 40, opacity: 0}}
+              whileInView={{y: 0, opacity: 1}}
+              viewport={{once: true}}
+              transition={{duration: 0.8}}
+              className='text-3xl md:text-4xl font-bold text-gray-900'>
                 <span className='bg-gradient-to-r from-[#1A237E] to-[#43C6AC] bg-clip-text text-transparent'>
                   Curated Excellence
                 </span>
-              </h1>
-              <p className='text-gray-600 text-base md:text-lg'>Top Rated By Our Readers</p>
+              </motion.h1>
+              <motion.p 
+              initial={{y: 40, opacity: 0}}
+              whileInView={{y: 0, opacity: 1}}
+              viewport={{once: true}}
+              transition={{duration: 0.8, delay:0.1}}
+              className='text-gray-600 text-base md:text-lg'>Top Rated By Our Readers</motion.p>
             </div>
 
             {/*Right buttons for moving left and right*/}
@@ -91,8 +102,12 @@ const OurBestSellers = () => {
           <div className='relative'>
               <div ref={scrollRef} className='flex overflow-x-auto gap-4 md:gap-8 pb-6 md:pb-8 scrollbar-hide scroll-smooth snap-x'>
             {books.map((book, index) => (
-              <div 
+              <motion.div 
               key={book._id}
+              initial={{scale: 0.9, opacity: 0}}
+              whileInView={{scale: 1, opacity:1}}
+              viewport={{once: true}}
+              transition={{ duration: 0.8 , delay: index * 0.1}}
               className={`flex-shrink-0 w-[calc(100vw-2rem)] sm:w-96 md:w-[400px] rounded-2xl md:rounded-3xl overflow-hidden bg-gradient-to-br ${bgColors[index % bgColors.length]} shadow-lg md:shadow-xl relative group transition-all duration-300 hover:shadow-xl md:hover:shadow-2xl snap-center`}>
                 <div className='p-6 md:p-8 pb-48 md:pb-60 flex flex-col justify-between h-full relative z-10'>
                   <div className='space-y-3 md:space-y-4'>
@@ -149,7 +164,7 @@ const OurBestSellers = () => {
                 alt={book.title}
                 className='absolute right-4 md:right-6 bottom-4 md:bottom-6 w-20 h-28 md:w-[120px] md:h-[180px] object-cover rounded-lg md:rounded-xl border-2 md:border-4 border-white shadow-xl md:shadow-2xl transform group-hover:-translate-y-1 md:group-hover:-translate-y-2 transition-transform'
                 />
-              </div>
+              </motion.div>
             ))}
           </div>
 

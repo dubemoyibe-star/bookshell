@@ -1,6 +1,8 @@
 
 import React, { useState } from 'react'
 import { CheckCircle , AlertCircle, MapPin, Mail, Phone, User, MessageSquare, Send } from 'lucide-react'
+import { motion } from 'framer-motion'
+
 const Contact = () => {
 
   const  [formData, setFormData] = useState({
@@ -65,16 +67,31 @@ const Contact = () => {
 
       <div className='container mx-auto px-4 md:px-6'>
         <div className='text-center mb-12'>
-          <h1 className='text-4xl font-bold text-gray-800 mb-4'>
+          <motion.h1 
+          initial={{y: 40, opacity: 0}}
+          whileInView={{y: 0, opacity: 1}}
+          viewport={{once: true}}
+          transition={{duration: 0.8}}
+          className='text-4xl font-bold text-gray-800 mb-4'>
             Contact Us 
-          </h1>
-          <p className='text-gray-800 max-w-2xl mx-auto'>
+          </motion.h1>
+          <motion.p 
+          initial={{y: 40, opacity: 0}}
+          whileInView={{y: 0, opacity: 1}}
+          viewport={{once: true}}
+          transition={{duration: 0.8, delay: 0.1}}
+          className='text-gray-800 max-w-2xl mx-auto'>
             Have questions or feedback? We'd love to hear from you.
-          </p>
+          </motion.p>
         </div>
 
         <div className='grid grid-cols-1 lg:grid-cols-3 gap-8'>
-          <div className='bg-white p-6 rounded-lg shadow-lg'>
+          <motion.div 
+          initial={{scale: 0.9, opacity: 0}}
+          whileInView={{scale: 1, opacity:1}}
+          viewport={{once: true}}
+          transition={{ duration: 0.8 }}
+          className='bg-white p-6 rounded-lg shadow-lg'>
             <h2 className='text-xl font-semibold text-gray-700 mb-6'>
               Contact Information
             </h2>
@@ -104,10 +121,15 @@ const Contact = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/*form */}
-          <div className='lg:col-span-2 bg-white p-6 rounded-lg shadow-lg'>
+          <motion.div 
+          initial={{scale: 0.9, opacity: 0}}
+          whileInView={{scale: 1, opacity:1}}
+          viewport={{once: true}}
+          transition={{ duration: 0.8 }}
+          className='lg:col-span-2 bg-white p-6 rounded-lg shadow-lg'>
             <h2 className='text-xl font-semibold text-gray-700 mb-6'>Send us a message via Whatsapp</h2>
 
             <form onSubmit={handleSubmit} className='space-y-6'>
@@ -185,7 +207,7 @@ const Contact = () => {
                   </div>
                 </button>
             </form>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>

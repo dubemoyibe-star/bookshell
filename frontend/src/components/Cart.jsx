@@ -3,6 +3,7 @@ import { Book, BookOpen, ShoppingBag, Minus, Plus, ArrowRight, Trash2} from 'luc
 import { useCart } from '../CartContext/CartContext';
 import { Link } from 'react-router-dom'
 import axios from 'axios';
+import { motion } from 'framer-motion';
 
 const API_BASE = `${import.meta.env.VITE_API_BASE}/api`
 const IMG_BASE = API_BASE.replace('/api', '')
@@ -71,17 +72,32 @@ const getImageSrc = (item) => {
     <div className='min-h-screen bg-gray-50 pt-24 pb-12 px-4 sm:px-6 lg:px-8'>
       <div className='max-w-6xl mx-auto'>
         <div className='mb-8 md:mb-12 text-center'>
-          <h1 className='text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-2 md:mb-3 flex items-center justify-center gap-2 md:gap-3'>
+          <motion.h1 
+          initial={{y: 40, opacity: 0}}
+          whileInView={{y: 0, opacity: 1}}
+          viewport={{once: true}}
+          transition={{duration: 0.8}}
+          className='text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-2 md:mb-3 flex items-center justify-center gap-2 md:gap-3'>
             <ShoppingBag className='h-7 w-7 md:h-9 md:w-9 text-emerald-600'/>
             Shopping Cart
-          </h1>
-          <p className='text-gray-600 text-sm md:text-base lg:text-lg'>
+          </motion.h1>
+          <motion.p 
+          initial={{y: 40, opacity: 0}}
+          whileInView={{y: 0, opacity: 1}}
+          viewport={{once: true}}
+          transition={{duration: 0.8, delay: 0.2}}
+          className='text-gray-600 text-sm md:text-base lg:text-lg'>
             {cart.items.length} item{cart.items.length !== 1 && 's'} in your cart
-          </p>
+          </motion.p>
         </div>
 
         {cart.items.length === 0 ? (
-          <div className='max-w-md mx-auto bg-white rounded-xl md:rounded-2xl p-6 md:p-8 text-center shadow-sm border border-gray-100'>
+          <motion.div 
+          initial={{scale: 0.9, opacity: 0}}
+          whileInView={{scale: 1, opacity:1}}
+          viewport={{once: true}}
+          transition={{ duration: 0.8 }}
+          className='max-w-md mx-auto bg-white rounded-xl md:rounded-2xl p-6 md:p-8 text-center shadow-sm border border-gray-100'>
             <div className='flex justify-center mb-4 md:mb-6'>
               <ShoppingBag className='h-12 w-12 md:h-16 md:w-16 text-emerald-600'/>
             </div>
@@ -95,12 +111,18 @@ const getImageSrc = (item) => {
               <BookOpen className='h-  4 w-4 md:h-5 md:w-5'/>
               Browse Collection
             </Link>
-          </div>
+          </motion.div>
         ): (
           <div className='grid lg:grid-cols-3 gap-6 md:gap-8'>
             <div className='lg:col-span-2 space-y-4 md:space-y-6'>
-              {cart.items.map((item) => (
-                <div key={`${item.source}.${item.id}`} className='bg-white rounded-lg md:rounded-xl p-4 md:p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow'>
+              {cart.items.map((item, index) => (
+                <motion.div 
+                key={`${item.source}.${item.id}`} 
+                initial={{scale: 0.9, opacity: 0}}
+                whileInView={{scale: 1, opacity:1}}
+                viewport={{once: true}}
+                transition={{ duration: 0.8, delay: index * 0.1}}
+                className='bg-white rounded-lg md:rounded-xl p-4 md:p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow'>
                   <div className='flex gap-4 md:gap-6'>
                     <img 
                     src={getImageSrc(item)} 
@@ -150,18 +172,23 @@ const getImageSrc = (item) => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
 
-            <div className='bg-white rounded-lg md:rounded-xl p-4 md:p-6 shadow-sm border border-gray-100 h-fit lg:sticky lg:top-6'>
+            <motion.div 
+            initial={{scale: 0.9, opacity: 0}}
+            whileInView={{scale: 1, opacity:1}}
+            viewport={{once: true}}
+            transition={{ duration: 0.8}}
+            className='bg-white rounded-lg md:rounded-xl p-4 md:p-6 shadow-sm border border-gray-100 h-fit lg:sticky lg:top-6'>
               <h2 className='text-xl md:text-2xl font-bold text-gray-900 mb-4 md:mb-6'>
                 Order Summary
               </h2>
               <div className='space-y-3 md:space-y-4 mb-6 md:mb-8'>
                 <div className='lex justify-between'>
                   <span className='ext-gray-600 text-sm md:text-base'>
-                    Subtotal ( {cart.items.length} items ) {" "}
+                    Subtotal ( {cart.items.length} item{cart.items.length <= 1 ? '' : 's'} ) {" "}
                   </span>
                   <span className='text-gray-900 font-medium text-sm md:text-base'>
                     ₦{total.toLocaleString("en-NG", { minimumFractionDigits: 2 })}
@@ -198,16 +225,30 @@ const getImageSrc = (item) => {
                 </div>
               </div>
 
-              <Link to='/checkout' className='cursor-pointer w-full flex items-center justify-center gap-2 px-5 py-3 md:px-6 md:py-4 bg-gradient-to-r from-[#2B5876] to-[#43C6AC] text-white rounded-lg md:rounded-xl font-semibold hover:opacity-90 transition-opacity text-sm md:text-base mb-3 md:mb-4'>
-                Checkout Now
-                <ArrowRight className='h-4 w-4 md:h-5 md:w-5'/>
-              </Link>
+              <motion.div
+              initial={{x: 40, opacity: 0}}
+              whileInView={{x: 0, opacity: 1}}
+              viewport={{once: true}}
+              transition={{duration: 0.8, delay: 0.1}}
+              >
+                <Link to='/checkout' className='cursor-pointer w-full flex items-center justify-center gap-2 px-5 py-3 md:px-6 md:py-4 bg-gradient-to-r from-[#2B5876] to-[#43C6AC] text-white rounded-lg md:rounded-xl font-semibold hover:opacity-90 transition-opacity text-sm md:text-base mb-3 md:mb-4'>
+                  Checkout Now
+                  <ArrowRight className='h-4 w-4 md:h-5 md:w-5'/>
+                </Link>
+              </motion.div>
 
-              <Link to='/books' className='cursor-pointer w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 md:px-6 md:py-3 rounded-lg md:rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors text-sm md:text-base'>
-                <BookOpen className='h-4 w-4 md:h-5 md:w-5'/>
-                Continue Shopping 
-              </Link>
-            </div>
+              <motion.div
+              initial={{x: -40, opacity: 0}}
+              whileInView={{x: 0, opacity: 1}}
+              viewport={{once: true}}
+              transition={{duration: 0.8, delay: 0.1}}
+              >
+                <Link to='/books' className='cursor-pointer w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 md:px-6 md:py-3 rounded-lg md:rounded-xl border border-gray-300 text-gray-700 hover:bg-gray-50 transition-colors text-sm md:text-base'>
+                  <BookOpen className='h-4 w-4 md:h-5 md:w-5'/>
+                  Continue Shopping 
+                </Link>
+              </motion.div>
+            </motion.div>
           </div>
         )}
       </div>

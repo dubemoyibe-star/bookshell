@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom"
 import axios from 'axios'
 import { ClipLoader } from 'react-spinners'
 import { useCart } from '../CartContext/CartContext'
+import { motion } from 'framer-motion'
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 
@@ -69,17 +70,33 @@ const Books = () => {
     <div className='min-h-screen pt-24 pb-16 bg-gradient-to-br from-[#f8fafc] to-[#f0fdfa]'>
       <div className='container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl'>
         <div className='text-center mb-12 md:mb-16 space-y-2 md:space-y-4'>
-          <h1 className='text-4xl md:text-5xl font-bold text-transparent pb-2 md:pb-4 bg-clip-text bg-gradient-to-r from-[#1A237E] to-[#43C6AC]'>
+          <motion.h1 
+          initial={{y: 40, opacity: 0}}
+          whileInView={{y: 0, opacity: 1}}
+          viewport={{once: true}}
+          transition={{duration: 0.8}}
+          className='text-4xl md:text-5xl font-bold text-transparent pb-2 md:pb-4 bg-clip-text bg-gradient-to-r from-[#1A237E] to-[#43C6AC]'>
             Literary Universe
-          </h1>
-          <p className='text-gray-600 text-base md:text-xl max-w-3xl mx-auto px-2'>
+          </motion.h1>
+          <motion.p 
+           initial={{y: 40, opacity: 0}}
+           whileInView={{y: 0, opacity: 1}}
+           viewport={{once: true}}
+           transition={{duration: 0.8, delay: 0.2}}
+          className='text-gray-600 text-base md:text-xl max-w-3xl mx-auto px-2'>
             Explore our curated collection spanning genres and perspectives
-          </p>
+          </motion.p>
         </div>
 
-        <div className='mb-8 md:mb-12 space-y-4 md:space-y-6'>
-          <div className='relative group'>
-            <div className='absolute top-0 bottom-0 left-0 flex items-center pl-4 md:pl-5'>
+        <div
+        className='mb-8 md:mb-12 space-y-4 md:space-y-6'>
+          <motion.div 
+          initial={{y: 40, opacity: 0}}
+          whileInView={{y: 0, opacity: 1}}
+          viewport={{once: true}}
+          transition={{duration: 0.8}}
+          className='relative group'>
+            <div className='absolute top-0 bottom-0 left-0 flex items-center pl-4 md:pl-5 z-5'>
               <Search className='h-5 w-5 md:h-6 md:w-6 text-gray-400 group-focus-within:text-[#43C6AC]' />
             </div>
 
@@ -89,35 +106,48 @@ const Books = () => {
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder='Search Titles, authors...' 
             className='w-full pl-12 md:pl-16 pr-4 md:pr-6 py-3 md:py-4 bg-white/90 backdrop-blur-sm border-0 rounded-xl md:rounded-2xl shadow-md md:shadow-lg focus:ring-2 focus:ring-[#43C6AC]/30 text-base md:text-lg placeholder-gray-400 text-gray-700 transition-all'/>
-          </div>
+          </motion.div>
 
           <div className='flex flex-col md:flex-row gap-3 md:gap-4 justify-between'>
             <div className='flex flex-col md:flex-row gap-3 md:gap-4 w-full md:w-auto'>
-              <select 
+              <motion.select 
               value={filterCategory}
               onChange={(e) => setFilterCategory(e.target.value)}
+              initial={{x: -40, opacity: 0}}
+              whileInView={{x: 0, opacity: 1}}
+              viewport={{once: true}}
+              transition={{duration: 0.8, delay: 0.1}}
               className='cursor-pointer w-full md:w-auto px-4 md:px-5 py-2 md:py-3 bg-white/90 backdrop-blur-sm border-0 rounded-lg md:rounded-xl shadow-md md:shadow-lg text-gray-700 focus:ring-2 focus:ring-[#43C6AC]/30 text-sm md:text-base'>
                 {categories.map((category) =>  (
                   <option  key={category} value={category}>
                     {category === 'all' ? 'All Genres' : category}
                   </option>
                 ))}
-              </select>
+              </motion.select>
 
-              <select 
+              <motion.select 
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
+              initial={{x: -40, opacity: 0}}
+              whileInView={{x: 0, opacity: 1}}
+              viewport={{once: true}}
+              transition={{duration: 0.8, delay: 0.2}}
               className='cursor-pointer w-full md:w-auto px-4 md:px-5 py-2 md:py-3 bg-white/90 backdrop-blur-sm border-0 rounded-lg md:rounded-xl shadow-md md:shadow-lg text-gray-700 focus:ring-2 focus:ring-[#43C6AC]/30 text-sm md:text-base'>
               <option value='title'>Sort by Title</option>
               <option value='price-low'>Price: Low to High</option>
               <option value='price-high'>Price: High to Low</option>
               <option value='rating'>Top Rated</option>
-              </select>
+              </motion.select>
             </div>
 
-            <div className='text-gray-600 text-sm md:text-base text-center md:text-left mt-2 md:mt-0'>
+            <motion.div 
+            initial={{x: 40, opacity: 0}}
+            whileInView={{x: 0, opacity: 1}}
+            viewport={{once: true}}
+            transition={{duration: 0.8, delay: 0.2}}
+            className='text-gray-600 text-sm md:text-base text-center md:text-left mt-2 md:mt-0'>
               Showing {sortedBooks.length} result{sortedBooks.length > 1 ? 's' : ''}
-            </div>
+            </motion.div>
           </div>
         </div>
 
@@ -133,12 +163,18 @@ const Books = () => {
           </div>}
 
         <div className='grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6'>
-            {sortedBooks.map((book) => {
+            {sortedBooks.map((book, index) => {
               const isInCart = inCart(book._id)
               const qty = getCartQuantity(book._id)
 
               return (
-                <div key={book._id} className='group bg-white/90 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1'>
+                <motion.div 
+                key={book._id} 
+                initial={{scale: 0.9, opacity: 0}}
+                whileInView={{scale: 1, opacity:1}}
+                viewport={{once: true}}
+                transition={{ duration: 0.8 , delay: index * 0.1}}
+                className='group bg-white/90 backdrop-blur-sm rounded-xl md:rounded-2xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1'>
                   <div className='relative aspect-square mb-4 md:mb-6 overflow-hidden rounded-lg md:rounded-xl'>
                     <img 
                     src={`${book.image.url}`} 
@@ -182,7 +218,7 @@ const Books = () => {
                       )}
                     </div>
                   </div>
-                </div>
+                </motion.div>
               )
             })}
         </div>

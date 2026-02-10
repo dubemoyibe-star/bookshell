@@ -19,7 +19,7 @@ export default async function authMiddleware(req, res, next) {
     req.user = user
     next()
   } catch (err) {
-    console.error('jwt verifcation failed', err)
+    console.error('jwt verification failed', err)
     return res.status(401).json({ success: false, message: 'Token invalid or expired'})
   }
 }

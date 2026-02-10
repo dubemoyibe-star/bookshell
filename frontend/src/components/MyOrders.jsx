@@ -3,6 +3,7 @@ import {Clock, Package, Truck, XCircle, CheckCircle, ArrowLeft, CreditCard, Doll
 import axios from 'axios';
 import Navbar from './Navbar';
 import Footer from './Footer';
+import { motion } from 'framer-motion';
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 
@@ -123,19 +124,33 @@ const MyOrders = () => {
         <div className="max-w-7xl mx-auto px-4">
           {/* Header */}
           <div className="flex items-center mb-8">
-            <button
+            <motion.button
               onClick={() => window.history.back()}
+              initial={{x: 40, opacity: 0}}
+              whileInView={{x: 0, opacity: 1}}
+              viewport={{once: true}}
+              transition={{duration: 0.8}}
               className="cursor-pointer flex items-center text-[#1A237E] hover:opacity-50 transition-colors"
             >
               <ArrowLeft className="w-5 h-5 mr-2" /> Back
-            </button>
-            <h1 className="text-3xl font-bold text-center flex-1 bg-white bg-clip-text text-transparent">
+            </motion.button>
+            <motion.h1 
+            initial={{y: 40, opacity: 0}}
+            whileInView={{y: 0, opacity: 1}}
+            viewport={{once: true}}
+            transition={{duration: 0.8}}
+            className="text-3xl font-bold text-center flex-1 bg-white bg-clip-text text-transparent">
               My Orders
-            </h1>
+            </motion.h1>
           </div>
 
           {/* Orders Table */}
-          <div className="bg-white rounded-2xl shadow-lg overflow-hidden mb-8">
+          <motion.div 
+          initial={{scale: 0.9, opacity: 0}}
+          whileInView={{scale: 1, opacity:1}}
+          viewport={{once: true}}
+          transition={{ duration: 0.8 , delay: 0.1}}
+          className="bg-white rounded-2xl shadow-lg overflow-hidden mb-8">
             <div className="overflow-x-auto">
               <table className="min-w-full">
                 <thead className="bg-gradient-to-r from-[#1A237E] to-[#43C6AC] text-white">
@@ -230,13 +245,18 @@ const MyOrders = () => {
                 </div>
               )}
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Order Details Modal */}
         {selectedOrder && (
           <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded-xl shadow-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <motion.div 
+            initial={{scale: 0.9, opacity: 0}}
+            whileInView={{scale: 1, opacity:1}}
+            viewport={{once: true}}
+            transition={{ duration: 0.5}}
+            className="bg-white rounded-xl shadow-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
               <div className="border-b p-6 flex justify-between items-center">
                 <div>
                   <h2 className="text-xl font-bold text-gray-800">
@@ -402,7 +422,7 @@ const MyOrders = () => {
                   Close
                 </button>
               </div>
-            </div>
+            </motion.div>
           </div>
         )}
       </div>

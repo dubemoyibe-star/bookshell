@@ -4,6 +4,7 @@ import { useCart } from '../CartContext/CartContext'
 import { Link } from 'react-router-dom'
 import { ArrowLeft, CheckCircle, MapPin, DollarSign, CreditCard, ShoppingCart } from 'lucide-react'
 import axios from 'axios'
+import { motion } from 'framer-motion'
 
 const API_BASE = `${import.meta.env.VITE_API_BASE}/api`
 const IMG_BASE = API_BASE.replace('/api', '')
@@ -110,7 +111,12 @@ const Checkout = () => {
     return (
       <div className='py-4 lg:py-8 min-h-screen bg-gradient-to-br from-[#43C6AC] to-[#F8FFAE]'>
         <div className='conatiner mx-auto px-4 max-w-4xl'>
-          <div className='bg-white rounded-2xl shadow-xl p-8 md:p-12 text-center'>
+          <motion.div 
+          initial={{scale: 0.9, opacity: 0}}
+          whileInView={{scale: 1, opacity:1}}
+          viewport={{once: true}}
+          transition={{ duration: 0.8}}
+          className='bg-white rounded-2xl shadow-xl p-8 md:p-12 text-center'>
             <div className='inline-flex items-center justify-center w-20 h-20 bg-green-100 founded-full mb-6'>
               <CheckCircle className='w-12 h-12 text-green-500'/>
             </div>
@@ -162,7 +168,7 @@ const Checkout = () => {
                 View Order Details
               </Link>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     )
@@ -210,14 +216,21 @@ const Checkout = () => {
     <Navbar />
     <div className='min-h-screen bg-gradient-to-br pt-28 from-[#43C6AC] to-[#F8FFAE] py-12'>
       <div className='container mx-auto px-4'>
-        <Link to='/cart' className='inline-flex items-center text-[#1A237E] font-medium mb-4 hover:underline'>
-          <ArrowLeft className='w-5 h-5 mr-2'/>
-          Back to Cart
-        </Link>
+        <div>
+          <Link to='/cart' className='inline-flex items-center text-[#1A237E] font-medium mb-4 hover:underline'>
+            <ArrowLeft className='w-5 h-5 mr-2'/>
+            Back to Cart
+          </Link>
+        </div>
 
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto'>
           {/* left side*/}
-          <div className='bg-white rounded-2xl shadow-xl p-6 md:p-8'>
+          <motion.div 
+          initial={{scale: 0.9, opacity: 0}}
+          whileInView={{scale: 1, opacity:1}}
+          viewport={{once: true}}
+          transition={{ duration: 0.8}}
+          className='bg-white rounded-2xl shadow-xl p-6 md:p-8'>
             <h2 className='text-2xl font-bold text-gray-800 mb-2'>
               Checkout Details
             </h2>
@@ -295,10 +308,15 @@ const Checkout = () => {
                   Place Order
               </button>
             </form>
-          </div>
+          </motion.div>
 
           {/*right side  */}
-          <div className="bg-white rounded-2xl shadow-xl p-6 md:p-8 h-fit">
+          <motion.div 
+          initial={{scale: 0.9, opacity: 0}}
+          whileInView={{scale: 1, opacity:1}}
+          viewport={{once: true}}
+          transition={{ duration: 0.8}}
+          className="bg-white rounded-2xl shadow-xl p-6 md:p-8 h-fit">
               <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center">
                 <ShoppingCart className="w-6 h-6 mr-2 text-[#43C6AC]" />
                 Order Summary
@@ -360,7 +378,7 @@ const Checkout = () => {
                   Your order will be delivered within 3-5 business days after processing.
                 </p>
               </div>
-            </div>
+            </motion.div>
 
         </div>
       </div>

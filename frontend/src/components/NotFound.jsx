@@ -1,11 +1,17 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import logo  from '../assets/logoicon.png'
+import { motion } from 'framer-motion'
 
 const NotFound = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#43C6AC]/40 to-[#2B5876]/40 px-4">
-      <div className="relative backdrop-blur-2xl bg-white/95 rounded-2xl shadow-2xl max-w-md w-full p-8 text-center overflow-hidden">
+      <motion.div 
+      initial={{scale: 0.9, opacity: 0}}
+      whileInView={{scale: 1, opacity:1}}
+      viewport={{once: true}}
+      transition={{ duration: 0.8 }}
+      className="relative backdrop-blur-2xl bg-white/95 rounded-2xl shadow-2xl max-w-md w-full p-8 text-center overflow-hidden">
 
         <div className="absolute -top-10 -right-10 w-32 h-32 bg-[#F8FFAE]/20 rounded-full blur-3xl pointer-events-none"/>
         <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-[#43C6AC]/20 rounded-full blur-3xl pointer-events-none"/>
@@ -39,7 +45,7 @@ const NotFound = () => {
             See Our Books
           </Link>
         </div>
-      </div>
+      </motion.div>
     </div>
   )
 }

@@ -2,6 +2,7 @@ import React from 'react'
 import { apbranches, apstats, apteamMembers } from '../assets/dummydata'
 import AboutUsImage from '../assets/AboutUsImage.png'
 import { Facebook, Instagram, MapPin, Twitter, Clock } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 const About = () => {
   return (
@@ -9,15 +10,25 @@ const About = () => {
       <section className='relative py-10 overflow-hidden'>
         <div className='container mx-auto px-4 md:px-6'>
           <div className='text-center mb-2 space-y-8'>
-            <div className='relative inline-block'>
+            <motion.div 
+            initial={{y: 40, opacity: 0}}
+            whileInView={{y: 0, opacity: 1}}
+            viewport={{once: true}}
+            transition={{duration: 0.8}}
+            className='relative inline-block'>
               <h1 className='text-5xl md:text-7xl font-black bg-gradient-to-r from-[#43C6AC] to-[#2B5876] bg-clip-text text-transparent mb-6 leading-tight'>
                 Crafting Literary <br /> Futures
               </h1>
               <div className='absolute -bottom-4 left-1/2 transform -translate-x-1/2 w-48 h-2 bg-gradient-to-r from-[#43C6AC] to-[#F8FFAE] rounded-full'/>
-            </div>
-            <p className='text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed font-medium'>
+            </motion.div>
+            <motion.p 
+            initial={{y: 40, opacity: 0}}
+            whileInView={{y: 0, opacity: 1}}
+            viewport={{once: true}}
+            transition={{duration: 0.8, delay: 0.1}}
+            className='text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed font-medium'>
                 Pioneering the next chapter in global storytelling. We bridge imagination with innovation through curated literary experience. 
-            </p>
+            </motion.p>
           </div>
         </div>
       </section>
@@ -26,13 +37,19 @@ const About = () => {
         <div className='container mx-auto px-4 md:px-6'>
           <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8'>
             {apstats.map((stat, index) => (
-              <div key={index} className='bg-white/95 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-[#43C6AC]/10 transition-transform hover:-translate-y-2'>
+              <motion.div 
+              key={index} 
+              initial={{scale: 0.9, opacity: 0}}
+              whileInView={{scale: 1, opacity:1}}
+              viewport={{once: true}}
+              transition={{ duration: 0.8 , delay: index * 0.1}}
+              className='bg-white/95 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-[#43C6AC]/10 transition-transform hover:-translate-y-2'>
                 <div className='w-16 h-16 rounded-2xl bg-gradient-to-r from-[#43C6AC] to-[#F8FFAE] flex items-center justify-center mb-6 shadow-lg'>
                   <stat.icon className='h-8 w-8 text-white'/>
                 </div>
                 <h3 className='text-5xl font-black text-[#2B5876] mb-2'>{stat.value}</h3>
                 <p className='text-lg font-medium text-gray-600'>{stat.label}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -41,7 +58,12 @@ const About = () => {
       <section className='py-20'>
         <div className='container mx-auto px-4 md:px-6'>
           <div className='grid grid-col-1 lg:grid-cols-2 gap-16'>
-            <div className='relative group overflow-hidden rounded-[2.5rem] shadow-2xl'>
+            <motion.div 
+            initial={{scale: 0.9, opacity: 0}}
+            whileInView={{scale: 1, opacity:1}}
+            viewport={{once: true}}
+            transition={{ duration: 0.8 }}
+            className='relative group overflow-hidden rounded-[2.5rem] shadow-2xl'>
               <img 
               src={AboutUsImage} 
               alt="About" 
@@ -49,39 +71,69 @@ const About = () => {
               <div className='absolute inset-0 bg-gradient-to-t from-[#43C6AC]/30 to-transparent'/>
 
               <div className='absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-[#2B5876]/80 to-transparent'>
-                <h3 className='text-2xl font-bold text-white'>
+                <motion.h3 
+                initial={{y: 40, opacity: 0}}
+                whileInView={{y: 0, opacity: 1}}
+                viewport={{once: true}}
+                transition={{duration: 0.8}}
+                className='text-2xl font-bold text-white'>
                 Since 2015
-                </h3>
-                <p className='text-gray-200'>
+                </motion.h3>
+                <motion.p 
+                initial={{y: 40, opacity: 0}}
+                whileInView={{y: 0, opacity: 1}}
+                viewport={{once: true}}
+                transition={{duration: 0.8, delay: 0.1}}
+                className='text-gray-200'>
                   Pioneering Digital Literature
-                </p>
+                </motion.p>
               </div>
-            </div>
+            </motion.div>
 
             <div className='space-y-10'>
               <div className='space-y-6'>
-                <h2 className='text-5xl font-black bg-gradient-to-r from-[#43C6AC] to-[#2B5876] bg-clip-text text-transparent'>
+                <motion.h2 
+                initial={{y: 40, opacity: 0}}
+                whileInView={{y: 0, opacity: 1}}
+                viewport={{once: true}}
+                transition={{duration: 0.8}}
+                className='text-5xl font-black bg-gradient-to-r from-[#43C6AC] to-[#2B5876] bg-clip-text text-transparent'>
                   Redefining Storytelling
-                </h2>
-                <p className='text-lg text-gray-700 leading-relaxed'>
+                </motion.h2>
+                <motion.p 
+                initial={{y: 40, opacity: 0}}
+                whileInView={{y: 0, opacity: 1}}
+                viewport={{once: true}}
+                transition={{duration: 0.8}}
+                className='text-lg text-gray-700 leading-relaxed'>
                   We've transformed traditional publishing into a dynamic digital ecosystem.
-                </p>
+                </motion.p>
               </div>
 
               <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-                <div className='p-6 bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl border border-[#43C6AC]/10'>
+                <motion.div 
+                initial={{scale: 0.9, opacity: 0}}
+                whileInView={{scale: 1, opacity:1}}
+                viewport={{once: true}}
+                transition={{ duration: 0.8 }}
+                className='p-6 bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl border border-[#43C6AC]/10'>
                   <h4 className='text-2xl font-bold text-[#2B5876] mb-3'>
                     Our Vision
                   </h4>
                   <p className='text-gray-600'>Create a global network.</p>
-                </div>
+                </motion.div>
 
-                <div className='p-6 bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl border border-[#43C6AC]/10'>
+                <motion.div 
+                initial={{scale: 0.9, opacity: 0}}
+                whileInView={{scale: 1, opacity:1}}
+                viewport={{once: true}}
+                transition={{ duration: 0.8, delay: 0.1}}
+                className='p-6 bg-white/95 backdrop-blur-lg rounded-2xl shadow-xl border border-[#43C6AC]/10'>
                   <h4 className='text-2xl font-bold text-[#2B5876] mb-3'>
                     Our Mission
                   </h4>
                   <p className='text-gray-600'>Empower creators and inspire readers.</p>
-                </div>
+                </motion.div>
               </div>
             </div>
           </div>
@@ -91,16 +143,27 @@ const About = () => {
         {/* team */}
       <section className='py-20 bg-gradient-to-br from-[#43C6AC]/5 to-[#F8FFAE]/5'>
         <div className='container mx-auto px-4 md:px-6'>
-          <div className='relative text-center mb-20'>
+          <motion.div 
+          initial={{y: 40, opacity: 0}}
+          whileInView={{y: 0, opacity: 1}}
+          viewport={{once: true}}
+          transition={{duration: 0.8}}
+          className='relative text-center mb-20'>
             <h2 className='text-5xl font-black bg-gradient-to-r from-[#43C6AC] to-[#2B5876] bg-clip-text text-transparent'>
               Meet Your Literary Guides 
             </h2>
             <div className='absolute -bottom-8 left-1/2 transform -translate-x-1/2 w-48 h-2 bg-gradient-to-r from-[#43C6AC] to-[#F8FFAE] rounded-full'/>
-          </div>
+          </motion.div>
 
           <div className='grid grid-cols-1 md:grid-cols-3 gap-3'>
               {apteamMembers.map((member) => (
-                <div key={member.id} className='group relative bg-white/95 backdrop-blur-lg rounded-[2rem] p-6 shadow-2xl border border-[#43C6AC]/10 transition-transform hover:-translate-y-3'>
+                <motion.div 
+                key={member.id} 
+                initial={{scale: 0.9, opacity: 0}}
+                whileInView={{scale: 1, opacity:1}}
+                viewport={{once: true}}
+                transition={{ duration: 0.8, delay: 0.1}}
+                className='group relative bg-white/95 backdrop-blur-lg rounded-[2rem] p-6 shadow-2xl border border-[#43C6AC]/10 transition-transform hover:-translate-y-3'>
                     <div className='relative overflow-hidden rounded-2xl mb-6'>
                       <img 
                       src={member.image} 
@@ -124,7 +187,7 @@ const About = () => {
                             </button>
                       ))}
                     </div>
-                </div>
+                </motion.div>
               ))}
           </div>
         </div>
@@ -133,16 +196,27 @@ const About = () => {
             { /* branches */}
       <section className='py-20'>
         <div className='container mx-auto px-4 md:px-6'>
-          <div className='relative text-center mb-20'>
+          <motion.div 
+          initial={{y: 40, opacity: 0}}
+          whileInView={{y: 0, opacity: 1}}
+          viewport={{once: true}}
+          transition={{duration: 0.8}}
+          className='relative text-center mb-20'>
             <h2 className='text-5xl font-black bg-gradient-to-r from-[#43C6AC] to-[#2B5876] bg-clip-text text-transparent'>
               Our Literary Sanctuaries
             </h2>
             <div className='absolute -bottom-8 left-1/2 transform -translate-x-1/2 w-48 h-2 bg-gradient-to-r from-[#43C6AC] to-[#F8FFAE] rounded-full'/>
-          </div>
+          </motion.div>
 
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8'>
               {apbranches.map((branch, index) => (
-                <div key ={index} className='bg-white/95 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-[#43C6AC]/10 transition-transform hover:-translate-y-2'>
+                <motion.div 
+                key ={index} 
+                initial={{scale: 0.9, opacity: 0}}
+                whileInView={{scale: 1, opacity:1}}
+                viewport={{once: true}}
+                transition={{ duration: 0.8, delay: 0.1}}
+                className='bg-white/95 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-[#43C6AC]/10 transition-transform hover:-translate-y-2'>
                   <div className='relative h-56 rounded-xl overflow-hidden mb-6'>
                     <img 
                     src={branch.image} 
@@ -164,7 +238,7 @@ const About = () => {
                       <p>{branch.hours}</p>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               ))}
           </div>
         </div>

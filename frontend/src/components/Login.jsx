@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight , Mail, Lock, Eye, EyeOff} from "lucide-react";
+import { motion } from "framer-motion";
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 
@@ -76,7 +77,12 @@ const Login = () => {
         </div>
       )}
 
-      <div className="w-full max-w-md bg-white rounded-lg shadow-sm p-8">
+      <motion.div
+      initial={{scale: 0.9, opacity: 0}}
+      whileInView={{scale: 1, opacity:1}}
+      viewport={{once: true}}
+      transition={{ duration: 0.8 }}
+      className="w-full max-w-md bg-white rounded-lg shadow-sm p-8">
         <Link to='/' className="flex items-center text-gray-600 mb-8">
           <ArrowRight className='rotate-180 mr-1 h-4 w-4'/>
           Back to Home
@@ -84,7 +90,8 @@ const Login = () => {
 
         {!isLoggedIn ? (
           <>
-          <div className="text-center mb-8">
+          <div 
+          className="text-center mb-8">
             <div className="mx-auto mb-4 bg-gray-100 w-fit p-3 rounded-full">
               <Lock className="h-6 w-6 text-[#43C6AC]"/>
             </div>
@@ -167,7 +174,7 @@ const Login = () => {
             </button>
           </div>
         )}
-      </div>
+      </motion.div>
     </div>
   )
 }

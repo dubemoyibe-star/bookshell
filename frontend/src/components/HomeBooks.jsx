@@ -3,6 +3,7 @@ import { useCart } from '../CartContext/CartContext'
 import { ClipLoader } from 'react-spinners'
 import { Star, Plus, Minus, ShoppingCart, ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { motion } from 'framer-motion'
 import axios from 'axios'
 
 const API_BASE = import.meta.env.VITE_API_BASE;
@@ -43,7 +44,12 @@ const HomeBooks = () => {
       <div className='container mx-auto px-4 md:px-6'>
         <div className='bg-white rounded-2xl shadow-lg p-8 md:p-12'>
             <div className='text-center mb-12'>
-              <h2 className='text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#43C6AC] to-[#2B5876] bg-clip-text text-transparent mb-4'>Bookseller Favorites </h2>
+              <motion.h2 
+              initial={{y: 40, opacity: 0}}
+              whileInView={{y: 0, opacity: 1}}
+              viewport={{once: true}}
+              transition={{duration: 0.8}}
+              className='text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#43C6AC] to-[#2B5876] bg-clip-text text-transparent mb-4'>Bookseller Favorites </motion.h2>
               <div className='h-1 w-20 bg-gradient-to-r from-[#43C6AC] to-[#F8FFAE] rounded-full mx-auto'/>
             </div>
 
@@ -59,11 +65,17 @@ const HomeBooks = () => {
             </div>}
 
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8'>
-              {books.map((book) => {
+              {books.map((book, index) => {
                 const itemInCart = inCart(book._id)
                 
                 return (
-                  <div key={book._id} className='group relative'>
+                  <motion.div 
+                  key={book._id} 
+                  initial={{scale: 0.9, opacity: 0}}
+                  whileInView={{scale: 1, opacity:1}}
+                  viewport={{once: true}}
+                  transition={{ duration: 0.8 , delay: index * 0.1}}
+                  className='group relative'>
                     <div className='relative h-72 overflow-hidden rounded-xl border-4 border-[#43C6AC]/20 mb-4'>
                       <img 
                       src={`${book.image.url}`} 
@@ -103,7 +115,7 @@ const HomeBooks = () => {
                       <span>Add to Cart</span>
                     </button>
                   )}
-                  </div>
+                  </motion.div>
                 )
               })}
             </div>
