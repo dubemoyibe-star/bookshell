@@ -3,7 +3,7 @@ import { Book, BookOpen, ShoppingBag, Minus, Plus, ArrowRight, Trash2} from 'luc
 import { useCart } from '../CartContext/CartContext';
 import { Link } from 'react-router-dom'
 import axios from 'axios';
-import { motion } from 'framer-motion';
+import { AnimatePresence ,motion } from 'framer-motion';
 
 const API_BASE = `${import.meta.env.VITE_API_BASE}/api`
 const IMG_BASE = API_BASE.replace('/api', '')
@@ -115,13 +115,18 @@ const getImageSrc = (item) => {
         ): (
           <div className='grid lg:grid-cols-3 gap-6 md:gap-8'>
             <div className='lg:col-span-2 space-y-4 md:space-y-6'>
-              {cart.items.map((item, index) => (
+              <AnimatePresence>
+                {cart.items.map((item) => (
                 <motion.div 
                 key={`${item.source}.${item.id}`} 
-                initial={{scale: 0.9, opacity: 0}}
-                whileInView={{scale: 1, opacity:1}}
-                viewport={{once: true}}
-                transition={{ duration: 0.8, delay: index * 0.1}}
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ opacity: 0, height: 0, marginBottom: 0, paddingTop: 0, paddingBottom: 0,
+                        transition: {
+                        duration: 0.25,
+                        ease: "easeIn",
+                      }, }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
                 className='bg-white rounded-lg md:rounded-xl p-4 md:p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow'>
                   <div className='flex gap-4 md:gap-6'>
                     <img 
@@ -174,6 +179,7 @@ const getImageSrc = (item) => {
                   </div>
                 </motion.div>
               ))}
+              </AnimatePresence>
             </div>
 
             <motion.div 
