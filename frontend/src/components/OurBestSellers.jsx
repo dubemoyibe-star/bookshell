@@ -88,7 +88,8 @@ const OurBestSellers = () => {
           </div>}
 
           {/*books section */}
-          <div ref={scrollRef} className=' flex overflow-x-auto gap-4 md:gap-8 pb-6 md:pb-8 scrollbar-hide scroll-smooth snap-x'>
+          <div className='relative'>
+              <div ref={scrollRef} className='flex overflow-x-auto gap-4 md:gap-8 pb-6 md:pb-8 scrollbar-hide scroll-smooth snap-x'>
             {books.map((book, index) => (
               <div 
               key={book._id}
@@ -150,6 +151,9 @@ const OurBestSellers = () => {
                 />
               </div>
             ))}
+          </div>
+
+          <div className="pointer-events-none absolute top-0 right-0 h-full w-16 md:w-24 bg-gradient-to-l from-white/80 to-transparent"></div>
           </div>
         </div>
     </section>

@@ -44,8 +44,8 @@ const Books = () => {
   const getCartQuantity = (id) => cart?.items?.find(item => item.id === id )?.quantity || 0
 
   const handleAddToCart = (book) => { addToCart({ id: book._id, title: book.title, price: book.price, quantity: 1})}
-  const handleIncrement = (id) => updateCartItem({ id, quantity: getCartQuantity() + 1})
-  const handleDecrement = (id) => updateCartItem({ id, quantity: getCartQuantity() - 1})
+  const handleIncrement = (id) => updateCartItem({ id, quantity: getCartQuantity(id) + 1})
+  const handleDecrement = (id) => updateCartItem({ id, quantity: getCartQuantity(id) - 1})
 
   const filteredBooks = books.filter((book) => {
     const matchCategory = filterCategory === 'all' || book.category === filterCategory
@@ -150,10 +150,14 @@ const Books = () => {
                   <p className='text-sm text-gray-500 mb-2 md:mb-3'>by {book.author}</p>
 
                   <div className='flex items-center gap-1 text-yellow-400 text-sm mb-2 md:mb-3'>
-                    {[...Array(Number.isFinite(book.rating) ? Math.floor(book.rating) : 0)].map((_, index) => (
-                      <Star className='w-4 h-4 fill-yellow-400 stroke-yellow-400' key={index}/>
-                    ))}
-                    <span>{Number.isFinite(book.rating) ? book.rating.toFixed(1) : 'N/A'}</span>
+                    {(() => {
+                      const ratingNum = Number(book.rating);
+                      const stars = Number.isFinite(ratingNum) ? Math.floor(ratingNum) : 0;
+                      return [...Array(stars)].map((_, index) => (
+                        <Star className='w-4 h-4 fill-yellow-400 stroke-yellow-400' key={index} />
+                      ));
+                    })()}
+                    <span>{Number.isFinite(Number(book.rating)) ? Number(book.rating).toFixed(1) : 'N/A'}</span>
                   </div>
 
                   <p className='text-sm text-gray-600 mb-4'>{book.description}</p>
