@@ -324,7 +324,12 @@ const Orders = () => {
 
       {selectedOrder && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-[1px] flex items-center justify-center z-50 p-4">
-          <div className='bg-white rounded-xl shadow-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto'>
+          <motion.div 
+          initial={{scale: 0.9, opacity: 0}}
+          whileInView={{scale: 1, opacity:1}}
+          viewport={{once: true}}
+          transition={{ duration: 0.5}}
+          className='bg-white rounded-xl shadow-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto'>
             <div className='border-b p-6 flex justify-between items-center'>
               <div>
               <h2 className='text-xl font-bold text-gray-800'>Order Details: {selectedOrder.orderId} </h2>
@@ -378,7 +383,7 @@ const Orders = () => {
                   {selectedOrder.book.map((book, index) => (
                     <div key={index} className='flex items-center justify-between mb-4'>
                       <img 
-                      src={`${API_BASE}${book.image}`}
+                      src={`${book.image.url}`}
                        alt={book.title} 
                        className='w-16 h-20 object-cover rounded'/>
                     <div className='flex-1 px-4'>
@@ -474,7 +479,7 @@ const Orders = () => {
                 Save Changes
               </button>
             </div>
-          </div>
+          </motion.div>
         </div>
       )}
     </div>
