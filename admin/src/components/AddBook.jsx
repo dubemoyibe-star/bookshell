@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { BookPlus, Star } from 'lucide-react'
+import { motion } from 'framer-motion'
 
   const initialFormData = {
     title: "",
@@ -87,17 +88,33 @@ const AddBook = () => {
       <div className='max-w-4xl mx-auto'>
         <div className='flex flex-col md:flex-row justify-between items-start md:items-center mb-8'>
           <div>
-            <h3 className='text-2xl font-bold text-gray-900'>
+            <motion.h3 
+            initial={{y: 40, opacity: 0}}
+            whileInView={{y: 0, opacity: 1}}
+            viewport={{once: true}}
+            transition={{duration: 0.8}}
+            className='text-2xl font-bold text-gray-900'>
               Add New Book
-            </h3>
-            <p className='text-gray-600 mt-1'>
+            </motion.h3>
+            <motion.p 
+            initial={{y: 40, opacity: 0}}
+            whileInView={{y: 0, opacity: 1}}
+            viewport={{once: true}}
+            transition={{duration: 0.8, delay: 0.1}}
+            className='text-gray-600 mt-1'>
               Fill in the details to add a new book to your store
-            </p>
+            </motion.p>
           </div>
         </div>
 
         {/* FORM */}
-        <form onSubmit={handleSubmit} className='bg-white rounded-xl shadow-sm border border-gray-100 p-6 md:p-8'>
+        <motion.form 
+        onSubmit={handleSubmit} 
+        initial={{scale: 0.9, opacity: 0}}
+        whileInView={{scale: 1, opacity:1}}
+        viewport={{once: true}}
+        transition={{ duration: 0.8, delay: 0.2}}
+        className='bg-white rounded-xl shadow-sm border border-gray-100 p-6 md:p-8'>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
             <div className='mb-6'>
               <label htmlFor='title' className='block text-sm font-medium text-gray-700 mb-2'>Book Title</label>
@@ -240,16 +257,16 @@ const AddBook = () => {
             <p className={`mt-2 text-${message.type === 'success' ? 'green-500' : 'red-500'}`}>{message.text}</p>
           )}
 
-          <div className='mt-8 flex justify-center'>
+          <div className='mt-8 flex justify-start '>
             <button 
             disabled={loading}
             type='submit'
-            className='cursor-pointer flex items-center gap-2 px-6 py-3 bg-[#43C6AC] text-white font-medium rounded-lg hover:bg-[#5ba193] transition-colors'>
+            className=' grow md:grow-0 cursor-pointer flex items-center gap-2 px-6 py-3 bg-[#43C6AC] text-white font-medium rounded-lg hover:bg-[#5ba193] transition-colors'>
               <BookPlus className='h-5 w-5'/>
               <span>{loading ? 'Adding book to collection...' : 'Add Book to Collection'}</span>
             </button>
           </div>
-        </form>
+        </motion.form>
       </div>
     </div>
   )

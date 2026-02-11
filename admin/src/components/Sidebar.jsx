@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { BookOpen, BookPlus, ChevronRight, ChevronLeft, ShoppingCart } from 'lucide-react'
 import logo from '../assets/logoicon.png'
+import { motion } from 'framer-motion'
 
 const Sidebar = () => {
 
@@ -54,7 +55,12 @@ const Sidebar = () => {
 
 
   return (
-    <div className={` bg-gradient-to-t from-[#2B5876] to-[#43C6AC] text-white min-h-screen p-4 transition-all duration-300 ease-in-out ${isCollapsed ? 'w-20' : 'w-64'}`}>
+    <motion.div 
+     initial={{x: -40, opacity: 0}}
+     whileInView={{x: 0, opacity: 1}}
+     viewport={{once: true}}
+     transition={{duration: 0.5}}
+    className={` bg-gradient-to-t from-[#2B5876] to-[#43C6AC] text-white min-h-screen p-4 transition-all duration-300 ease-in-out ${isCollapsed ? 'w-20' : 'w-64'}`}>
       <div className='flex justify-between items-center mb-8'>
         {!isCollapsed && (
           <div className='flex items-center gap-3'>
@@ -120,7 +126,7 @@ const Sidebar = () => {
           </p>
         )}
       </div>
-    </div>
+    </motion.div>
   )
 }
 

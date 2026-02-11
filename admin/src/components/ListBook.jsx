@@ -2,6 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react'
 import { BookOpen, Filter, Trash2 } from 'lucide-react'
 import { ClipLoader } from 'react-spinners';
 import axios from 'axios'
+import { motion } from 'framer-motion'
 
  const API_BASE = import.meta.env.VITE_API_BASE
 
@@ -92,12 +93,27 @@ const ListBook = () => {
   return (
     <div className='p-6 max-w-7xl mx-auto'>
       <div className='text-center mb-8'>
-        <h1 className='text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#1A237E] to-[#43C6AC] bg-clip-text text-transparent'>Manage Books Inventory </h1>
-        <p className='text-gray-600 mt-2'>View, edit and manage your book collection</p>
+        <motion.h1 
+        initial={{y: 40, opacity: 0}}
+        whileInView={{y: 0, opacity: 1}}
+        viewport={{once: true}}
+        transition={{duration: 0.8}}
+        className='text-3xl md:text-4xl font-bold bg-gradient-to-r from-[#1A237E] to-[#43C6AC] bg-clip-text text-transparent'>Manage Books Inventory </motion.h1>
+        <motion.p 
+        initial={{y: 40, opacity: 0}}
+        whileInView={{y: 0, opacity: 1}}
+        viewport={{once: true}}
+        transition={{duration: 0.8, delay: 0.1}}
+        className='text-gray-600 mt-2'>View, edit and manage your book collection</motion.p>
       </div>
 
       {/*controls */}
-      <div className='bg-white rounded-2xl shadow-lg p-6 mb-8'>
+      <motion.div 
+      initial={{scale: 0.9, opacity: 0}}
+      whileInView={{scale: 1, opacity:1}}
+      viewport={{once: true}}
+      transition={{ duration: 0.8, delay: 0.2}}
+      className='bg-white rounded-2xl shadow-lg p-6 mb-8'>
         <div className='flex flex-col md:flex-row gap-4 justify-between'>
           <div className='flex gap-3'>
             <div className='relative group'>
@@ -117,7 +133,7 @@ const ListBook = () => {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/*feedback */}
       {loading && (
@@ -132,9 +148,15 @@ const ListBook = () => {
       </div>}
 
       {/* table*/}
-      <div className='bg-white rounded-2xl shadow-lg overflow-hidden'>
+      <motion.div 
+       initial={{scale: 0.9, opacity: 0}}
+       whileInView={{scale: 1, opacity:1}}
+       viewport={{once: true}}
+       transition={{ duration: 0.8, delay: 0.4}}
+      className='bg-white rounded-2xl shadow-lg overflow-hidden'>
         <div className='overflow-x-auto'>
-          <table className='min-w-full'>
+          <table
+          className='min-w-full'>
             <thead className='bg-gradient-to-r from-[#1A237E] to-[#43C6AC] text-white'>
               <tr>
                 {tableHeaders.map((header) => (
@@ -215,7 +237,7 @@ const ListBook = () => {
             <p className='text-gray-500'>Try adjusting your filter or sort options</p>
           </div>
         )}
-      </div>
+      </motion.div>
     </div>
   )
 }

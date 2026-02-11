@@ -5,7 +5,8 @@ import {
   Mail, Phone, Edit, X, Package, RefreshCw 
 } from "lucide-react";
 import axios from 'axios'
- const API_BASE = import.meta.env.VITE_API_BASE
+import { motion } from 'framer-motion'
+const API_BASE = import.meta.env.VITE_API_BASE
 
  const statusOptions = [
    {
@@ -145,13 +146,29 @@ const Orders = () => {
     <div className='min-h-screen bg-gray-50 p-6'>
       <div className='max-w-7xl pb-24 mx-auto'>
         <div className='mb-8'>
-          <h1 className='text-2xl font-bold text-gray-900'>Order Management</h1>
-          <p className='text-gray-600 mt-1'>Track and manage all customer orders</p>
+          <motion.h1 
+          initial={{y: 40, opacity: 0}}
+          whileInView={{y: 0, opacity: 1}}
+          viewport={{once: true}}
+          transition={{duration: 0.8}}
+          className='text-2xl font-bold text-gray-900'>Order Management</motion.h1>
+          <motion.p 
+          initial={{y: 40, opacity: 0}}
+          whileInView={{y: 0, opacity: 1}}
+          viewport={{once: true}}
+          transition={{duration: 0.8, delay: 0.1}}
+          className='text-gray-600 mt-1'>Track and manage all customer orders</motion.p>
         </div>
 
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8'>
           {stats.map((stat, i) => (
-            <div key={i} className='bg-white rounded-xl p-5 shadow-sm border border-gray-100'>
+            <motion.div 
+            key={stat.label} 
+            initial={{scale: 0.9, opacity: 0}}
+            whileInView={{scale: 1, opacity:1}}
+            viewport={{once: true}}
+            transition={{ duration: 0.8, delay: i * 0.1}}
+            className='bg-white rounded-xl p-5 shadow-sm border border-gray-100'>
               <div className='flex justify-between items-center'>
                 <div>
                   <p className='text-sm text-gray-500'>{stat.label}</p>
@@ -161,11 +178,16 @@ const Orders = () => {
                   <stat.icon className={`w-6 h-6 ${stat.color}`}/>
                 </div>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
 
-        <div className='bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-6'>
+        <motion.div
+        initial={{scale: 0.9, opacity: 0}}
+        whileInView={{scale: 1, opacity:1}}
+        viewport={{once: true}}
+        transition={{ duration: 0.8}}
+        className='bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-6'>
           <div className='flex flex-col md:flex-row gap-4 justify-between'>
             <div className='flex flex-wrap gap-2'>
               {tabs.map(tab => (
@@ -192,9 +214,14 @@ const Orders = () => {
               className='w-full pl-10 pr-3 py-2.5 border-0 rounded-lg bg-gray-50 focus:ring-2 focus:ring-[#43C6AC]'/>
             </div>
           </div>
-        </div>
+        </motion.div>
 
-        <div className='bg-white rounded-t-xl shadow-sm border border-gray-100 overflow-hidden'>
+        <motion.div 
+        initial={{scale: 0.9, opacity: 0}}
+        whileInView={{scale: 1, opacity:1}}
+        viewport={{once: true}}
+        transition={{ duration: 0.8, delay: 0.2}}
+        className='bg-white rounded-t-xl shadow-sm border border-gray-100 overflow-hidden'>
           <div className='overflow-x-auto'>
             <table className='min-w-full'>
               <thead className='bg-gray-50 border-b border-gray-200'>
@@ -272,7 +299,7 @@ const Orders = () => {
                 </div>
               )}
           </div>
-        </div>
+        </motion.div>
               <div className='px-6 py-4 bg-gray-100 rounded-b-xl flex flex-col sm:flex-row justify-between items-start sm:items-center'>
                 <div className='text-sm text-gray-600'>
                     Showing <span className='font-medium'>{sortedOrders.length}</span> of {' '}

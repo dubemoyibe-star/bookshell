@@ -216,12 +216,17 @@ const Checkout = () => {
     <Navbar />
     <div className='min-h-screen bg-gradient-to-br pt-28 from-[#43C6AC] to-[#F8FFAE] py-12'>
       <div className='container mx-auto px-4'>
-        <div>
+        <motion.div
+         initial={{x: 40, opacity: 0}}
+         whileInView={{x: 0, opacity: 1}}
+         viewport={{once: true}}
+         transition={{duration: 0.8, delay: 0.2}}
+        >
           <Link to='/cart' className='inline-flex items-center text-[#1A237E] font-medium mb-4 hover:underline'>
             <ArrowLeft className='w-5 h-5 mr-2'/>
             Back to Cart
           </Link>
-        </div>
+        </motion.div>
 
         <div className='grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto'>
           {/* left side*/}
