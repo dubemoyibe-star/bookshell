@@ -153,7 +153,7 @@ const ListBook = () => {
        whileInView={{scale: 1, opacity:1}}
        viewport={{once: true}}
        transition={{ duration: 0.8, delay: 0.4}}
-      className='bg-white rounded-2xl shadow-lg overflow-hidden'>
+      className='bg-white rounded-2xl shadow-lg overflow-hidden mb-32'>
         <div className='overflow-x-auto'>
           <table
           className='min-w-full'>

@@ -19,6 +19,7 @@ const Checkout = () => {
   const [orderId, setOrderId] = useState(null);
   const [orderTotal, setOrderTotal] = useState(0);
   const [images, setImages] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
 
   useEffect(() => {
@@ -47,6 +48,7 @@ const Checkout = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setIsSubmitting(true)
     try {
       const token = localStorage.getItem('auth-Token')
       if(!token) throw new Error('Not authenticated')
@@ -103,6 +105,8 @@ const Checkout = () => {
       setOrderPlaced(true)
     } catch (error) {
       console.error('Order submitting error', error)
+    } finally {
+      setIsSubmitting(false)
     }
 
   }
@@ -309,7 +313,10 @@ const Checkout = () => {
                 </div>
               </div>
 
-              <button type='submit' className='cursor-pointer w-full py-4 bg-gradient-to-r from-[#1A237E] to-[#43C6AC] text-white font-bold rounded-lg hover:opacity-90 transition-opacity'>
+              <button 
+              type='submit' 
+              disabled={isSubmitting}
+              className='cursor-pointer w-full py-4 bg-gradient-to-r from-[#1A237E] to-[#43C6AC] text-white font-bold rounded-lg hover:opacity-90 transition-opacity'>
                   Place Order
               </button>
             </form>

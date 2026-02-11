@@ -9,6 +9,7 @@ const SignUp = () => {
   const [formData, setFormData ] = useState({ username: "", email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [toast, setToast ] = useState({ visible: false, message: "", type: "" })
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -38,9 +39,9 @@ const SignUp = () => {
     setToast({
       visible: true,
       message: 'Creating Account...',
-      type: 'info'
+      type: 'success'
     })
-
+    setIsSubmitting(true)
     try {
       const res = await fetch(`${API_BASE}/api/user/register`, {
         method: 'POST',
@@ -63,6 +64,8 @@ const SignUp = () => {
     } catch (error) {
       console.log(error)
       setToast({ visible: true , message: 'Network Error', type: 'error'})
+    } finally {
+      setIsSubmitting(false)
     }
   }
   return (
@@ -149,8 +152,9 @@ const SignUp = () => {
 
           <button 
           type='submit'
+          disabled={isSubmitting}
           className='cursor-pointer w-full bg-[#43C6AC] text-white py-3 rounded-lg hover:bg-[#368f7a] transition-colors'>
-              Create Account
+              {isSubmitting ? 'Creating Account...' : 'Create Account'}
           </button>
         </form>
 
