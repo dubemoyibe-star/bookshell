@@ -317,7 +317,7 @@ const Checkout = () => {
               type='submit' 
               disabled={isSubmitting}
               className='cursor-pointer w-full py-4 bg-gradient-to-r from-[#1A237E] to-[#43C6AC] text-white font-bold rounded-lg hover:opacity-90 transition-opacity'>
-                  Place Order
+                 {isSubmitting ? 'Placing Order...' : 'Place Order'}
               </button>
             </form>
           </motion.div>
