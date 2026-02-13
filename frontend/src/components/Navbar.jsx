@@ -5,7 +5,7 @@ import { navItems } from '../assets/dummydata'
 import { Menu, User, X } from 'lucide-react'
 import { FaOpencart } from 'react-icons/fa'
 import { useCart } from '../CartContext/CartContext'
-import { motion } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 
 
 
@@ -117,55 +117,62 @@ const Navbar = () => {
       </div>
 
       {/*mobile menu navigation */}
-      {isOpen && (
-        <div className='md:hidden absolute top-full left-0 right-0 bg-white shadow-lg z-40'>
-          <div className='container mx-auto px-4 py-4'>
-            <div className='flex flex-col space-y-1'>
-              {navItems.map((item) => {
-                const isActive = location.pathname === item.path
+      <AnimatePresence>
+          {isOpen && (
+          <motion.div 
+          initial={{ x: 150, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: 150, opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          className='md:hidden absolute top-full left-0 right-0 bg-white shadow-lg z-40'>
+            <div className='container mx-auto px-4 py-4'>
+              <div className='flex flex-col space-y-1'>
+                {navItems.map((item) => {
+                  const isActive = location.pathname === item.path
 
-                return (
-                  <Link 
-                    key={item.name}
-                    to={item.path}
-                    onClick={() => setIsOpen(false)}
-                    className={`flex items-center px-4 py-3 rounded-lg ${
-                      isActive ? `bg-gradient-to-r ${item.color}/10` : "hover:bg-gray-100"
-                    } transition-colors`}
-                    >
-                    <item.icon className={`h-5 w-5 ${isActive ? `text-${item.color.split('-')[1]}-500` : "text-gray-600"}`}/>
-                    <span className={`ml-3 ${isActive ? `text-${item.color.split('-')[1]}-600 font-medium` : "text-gray-600"}`}>
-                      {item.name}
-                    </span>
-                  </Link>
-                )
-              })}
-
-              <div className='flex justify-between items-center mt-4'>
-                <Link 
-                  to='/cart'
-                  className='relative group p-2'
-                  onClick={() => setIsOpen(false)}>
-                    
-                    <FaOpencart className='h-5 w-5 text-gray-600 group hover:text-amber-600'/>
-                    {totalQuantity > 0 && (
-                      <span className='absolute top-0 right-0 -mt-1 -mr-1 w-5 h-5 flex items-center justify-center text-[10px] font-bold text-white bg-gradient-to-r from-amber-500 to-orange-600 rounded-full'>
-                          {totalQuantity}
+                  return (
+                    <Link 
+                      key={item.name}
+                      to={item.path}
+                      onClick={() => setIsOpen(false)}
+                      className={`flex items-center px-4 py-3 rounded-lg ${
+                        isActive ? `bg-gradient-to-r ${item.color}/10` : "hover:bg-gray-100"
+                      } transition-colors`}
+                      >
+                      <item.icon className={`h-5 w-5 ${isActive ? `text-${item.color.split('-')[1]}-500` : "text-gray-600"}`}/>
+                      <span className={`ml-3 ${isActive ? `text-${item.color.split('-')[1]}-600 font-medium` : "text-gray-600"}`}>
+                        {item.name}
                       </span>
-                    )}
-                </Link>
+                    </Link>
+                  )
+                })}
 
-                <Link 
-                  to='/login'
-                  className='p-2 group' 
-                  onClick={() => setIsOpen(false)}>
-                    <User className='h-5 w-5 text-gray-600 group hover:text-amber-600'/>
-                </Link>
+                <div className='flex justify-between items-center mt-4'>
+                  <Link 
+                    to='/cart'
+                    className='relative group p-2'
+                    onClick={() => setIsOpen(false)}>
+                      
+                      <FaOpencart className='h-5 w-5 text-gray-600 group hover:text-amber-600'/>
+                      {totalQuantity > 0 && (
+                        <span className='absolute top-0 right-0 -mt-1 -mr-1 w-5 h-5 flex items-center justify-center text-[10px] font-bold text-white bg-gradient-to-r from-amber-500 to-orange-600 rounded-full'>
+                            {totalQuantity}
+                        </span>
+                      )}
+                  </Link>
+
+                  <Link 
+                    to='/login'
+                    className='p-2 group' 
+                    onClick={() => setIsOpen(false)}>
+                      <User className='h-5 w-5 text-gray-600 group hover:text-amber-600'/>
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          </motion.div>
       )}
+      </AnimatePresence>
     </motion.nav>
   )
 }
