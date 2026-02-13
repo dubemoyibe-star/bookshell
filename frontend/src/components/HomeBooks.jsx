@@ -36,8 +36,8 @@ const HomeBooks = () => {
     }, [])
   
   const handleAdd = (book) => { addToCart({ id: book._id, title: book.title, price: book.price, author:book.author,  quantity: 1})}
-  const handleInc = (id) => updateCartItem({ id, quantity: getQty() + 1})
-  const handleDec = (id) => updateCartItem({ id, quantity: getQty() - 1})
+  const handleInc = (id) => updateCartItem({ id, quantity: getQty(id) + 1})
+  const handleDec = (id) => updateCartItem({ id, quantity: getQty(id) - 1})
 
   return (
     <div className='py-20 bg-gradient-to-br from-[#43C6AC] to-[#F8FFAE] relative'>
