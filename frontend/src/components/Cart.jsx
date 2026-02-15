@@ -20,7 +20,7 @@ useEffect(() => {
     .then(({ data }) => {
       const map = {}
       data.forEach((book) => {
-        map[book._id] = book.image; // store { url, public_id }
+        map[book._id] = book.image; 
       })
       setImages(map)
     })
@@ -39,7 +39,6 @@ const getImageSrc = (item) => {
   return '/placeholder.png';
 }
 
-  //increasing decreasing and remove 
   const inc = (item) => 
     updateCartItem({
       id: item.id, 

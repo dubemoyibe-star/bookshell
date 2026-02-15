@@ -5,11 +5,9 @@ const API_BASE = import.meta.env.VITE_API_BASE;
 
 const CartContext = createContext();
 
-// Consistent localStorage key
 const STORAGE_KEY = "cartItems";
 
 const getInitialCart = () => {
-  // Only run in browser
   if (typeof window === "undefined") return { items: [] };
 
   const saved = localStorage.getItem(STORAGE_KEY);
@@ -72,7 +70,6 @@ const cartReducer = (state, action) => {
 export const CartProvider = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, null, getInitialCart);
 
-  // Fetch stored cart from server if authenticated
   useEffect(() => {
     const fetchCart = async () => {
       const token = localStorage.getItem("authToken");
@@ -108,7 +105,6 @@ export const CartProvider = ({ children }) => {
 
   const addToCart = async ( product ) => {
     const token = localStorage.getItem("authToken");
-    console.log("addToCart called for product", product);
     const qty = product.quantity || 1;
     if (token) {
       try {

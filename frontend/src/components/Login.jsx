@@ -45,8 +45,6 @@ const handleGoogleLogin = async () => {
       { headers: { "Content-Type": "application/json" } }
     );
 
-    console.log("Logged in user:", data.user);
-
     localStorage.setItem("auth-Token", data.token);
 
     setToast({
