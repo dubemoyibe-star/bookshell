@@ -2,6 +2,9 @@ import userModel from "../models/userModel.js";
 import validator from 'validator'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
+import admin from '../config/firebaseAdmin.js'
+import dotenv from 'dotenv'
+
 
 const JWT_SECRET = process.env.JWT_SECRET
 const TOKEN_EXPIRES = '24h'
@@ -96,5 +99,40 @@ export async function loginUser(req, res) {
   } catch (error) {
     console.error('Login error', error)
     res.status(500).json({success: false , message: 'Server error'})
+  }
+}
+
+export async function googleLogin(req, res) {
+  const { token } = req.body
+
+  try {
+    const decodedToken = await admin.auth().verifyIdToken(token)
+    const { email, name, uid } = decodedToken
+
+    let user = await userModel.findOne({ email })
+
+    if (!user) {
+      user = await userModel.create({
+        name,
+        email,
+        firebaseUid: uid,
+      })
+    }
+
+    const jwtToken = createToken(user._id)
+
+    res.status(200).json({
+      success: true, 
+      message: 'Login successful', 
+      token: jwtToken,
+      user: {
+        id: user._id,
+        username: user.name,
+        email:user.email
+      }
+    })
+  } catch (error) {
+    console.error(error)
+    res.status(401).json({ message: "Invalid or expired token" })
   }
 }
