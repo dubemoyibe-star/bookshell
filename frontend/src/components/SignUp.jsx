@@ -54,7 +54,7 @@ const handleGoogleLogin = async () => {
     setToast({
       visible: true,
       message: "Login Successful",
-      type: "success",
+      type: "google-success",
     });
 
     setTimeout(() => navigate("/"), 3000);
@@ -134,7 +134,7 @@ const handleGoogleLogin = async () => {
     <div className='min-h-screen flex items-center justify-center bg-gray-50 p-4'>
       {toast.visible && (
         <div className={`fixed top-4 right-4 p-3 rounded-md 
-                        ${toast.type === 'success' ? "bg-green-100 text-green-700" 
+                        ${toast.type === 'success' || 'google-success' ? "bg-green-100 text-green-700" 
                         : "bg-red-100 text-red-700" }`}>
             {toast.message}
         </div>
