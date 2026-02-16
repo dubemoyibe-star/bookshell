@@ -3,6 +3,9 @@ import Book from "../models/bookModel.js";
 // import Stripe from "stripe";
 import axios from 'axios'
 import { v4 as uuidv4 } from "uuid";
+import { logActivity } from "../utils/logActivity.js";
+import admin from "../config/firebaseAdmin.js";
+import adminModel from "../models/adminModel.js";
 
 // const stripe = Stripe(process.env.STRIPE_SECRET_KEY)
 
@@ -272,7 +275,31 @@ export const updateOrder = async (req, res, next) => {
     allowed.forEach(field => {
       if(req.body[field] !== undefined) updateData[field] = req.body[field];
     })
+
+    const existingOrder = await Order.findById(req.params.id);
+
+    if (!existingOrder) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
     const updated = await Order.findByIdAndUpdate(req.params.id, updateData, {new: true, runValidators: true}).lean();
+
+    await logActivity({
+      adminId: req.admin._id,  
+      action: 'UPDATED ORDER',
+      entityType: 'order',
+      entityId: updated._id,
+      details: {
+        user: existingOrder.shippingAddress.fullName,
+        userEmail: existingOrder.shippingAddress.email,
+        adminName: req.admin.name,
+        adminEmail: req.admin.email,
+        orderId: updated.orderId,
+        paymentStatus: existingOrder.paymentStatus,
+        previousStatus: existingOrder.orderStatus,
+        newStatus: updated.orderStatus,
+      }
+    });
     if(!updated) {
       res.status(400).json({ message: 'Order not found'})
     }

@@ -63,11 +63,17 @@ const Orders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
+        const token = localStorage.getItem('admin-Token')
         const params = {
           ...(searchTerm && { search: searchTerm}),
           ...(activeTab !== 'all' && { status: activeTab}),
         }
-        const {data} = await axios.get(`${API_BASE}/api/order`, { params })
+        const {data} = await axios.get(`${API_BASE}/api/order`, {
+          params,
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+        })
         setOrders(data.orders);
         setCounts(data.counts)
       } catch (error) {
@@ -95,27 +101,47 @@ const Orders = () => {
 
   const viewOrder  = async (orderId) => {
     try {
-      const {data} = await axios.get(`${API_BASE}/api/order/${orderId}`)
-      console.log(data)
+      const token = localStorage.getItem('admin-Token')
+      const {data} = await axios.get(`${API_BASE}/api/order/${orderId}`, 
+        {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
+    }
+      )
       setSelectedOrder(data)
     } catch (error) {
       console.error('Failed to fetch order details', error)
     }
   }
 
-  const updateStatus= async (id, newStatus) => {
+  const updateStatus = async (id, newStatus) => {
     try {
-      await axios.put(`${API_BASE}/api/order/${id}`, { orderStatus: newStatus})
+      const token = localStorage.getItem('admin-Token')
+      await axios.put(`${API_BASE}/api/order/${id}` ,{ orderStatus: newStatus}, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       const params = {
           ...(searchTerm && { search: searchTerm}),
           ...(activeTab !== 'all' && { status: activeTab}),
         }
-        const {data} = await axios.get(`${API_BASE}/api/order`, { params })
+        const {data} = await axios.get(`${API_BASE}/api/order`, {
+          params,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
         setOrders(data.orders);
         setCounts(data.counts)
 
         if(selectedOrder?.id === id) {
-          const { data: fresh} = await axios.get(`${API_BASE}/api/order/${id}`)
+          const { data: fresh} = await axios.get(`${API_BASE}/api/order/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
           setSelectedOrder(fresh)
         }
     } catch (error) {
@@ -390,11 +416,12 @@ const Orders = () => {
                     <p className='font-medium'>{book.title}</p>
                     <p className='text-sm text-gray-500'>Author: {book.author}</p>
                     <p className='text-xs text-gray-400'>ID: {book.book}</p>
-                    </div>
                     <div className='text-right'>
                       <p>Qty: {book.quantity}</p>
                       <p className='text-sm'>₦{book.price.toLocaleString("en-NG", { minimumFractionDigits: 2 })} each</p>
                     </div>
+                    </div>
+                    
                     </div>
                   ))}
 

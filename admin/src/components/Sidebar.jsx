@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { BookOpen, BookPlus, ChevronRight, ChevronLeft, ShoppingCart } from 'lucide-react'
+import { Clock,BookOpen, BookPlus, ChevronRight, ChevronLeft, ShoppingCart } from 'lucide-react'
 import logo from '../assets/logoicon.png'
 import { motion } from 'framer-motion'
 
@@ -23,6 +23,7 @@ const Sidebar = () => {
     { path: '/', icon: BookPlus, label: 'Add Books' },
     { path: '/list-books', icon: BookOpen, label: 'List Books' },
     { path: '/orders', icon: ShoppingCart, label: 'Orders' },
+    { path: '/activity', icon: Clock, label: 'Activity' },
   ];
 
   const toggleCollapse = () => {

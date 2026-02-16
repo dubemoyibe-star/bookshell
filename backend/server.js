@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url';
 import bookRouter from './routes/bookRoute.js';
 import cartRouter from './routes/cartRoute.js';
 import orderRouter from './routes/orderRoute.js';
+import adminRouter from './routes/adminRoute.js';
 
 const app = express();
 const port = process.env.PORT
@@ -39,6 +40,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 app.use('/api/book', bookRouter)
 app.use('/api/cart', cartRouter)
 app.use('/api/order', orderRouter)
+app.use('/api/admin', adminRouter)
 
 // error handling middleware
 app.use((err, req, res, next) => {

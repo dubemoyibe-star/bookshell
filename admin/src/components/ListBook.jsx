@@ -20,7 +20,19 @@ const ListBook = () => {
       setLoading(true)
       setError(null)
       try {
-        const { data } = await axios.get(`${API_BASE}/api/book`)
+        const token = localStorage.getItem('admin-Token')
+        if(!token) {
+          setError('Authentication failed. Please log in again.')
+          setLoading(false)
+          return;
+        }
+        const { data } = await axios.get(`${API_BASE}/api/book`, 
+          {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+        }
+        )
         setBooks(data)
       } catch (error) {
         setError(error.response?.data?.message || 'Failed to load books')
@@ -80,9 +92,19 @@ const ListBook = () => {
     if(!window.confirm('Are you sure')) return;
 
     try {
+      const token = localStorage.getItem('admin-Token')
+      if(!token) {
+        alert('Authentication failed. Please log in again.')
+        return;
+      }
       await axios.delete(
         `${API_BASE}/api/book/${id}`, 
-        {validateStatus: status => [200, 204, 500].includes(status)})
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+          },
+          validateStatus: status => [200, 204, 500].includes(status)
+        })
         setBooks((prev) => prev.filter((book) => book._id !== id))
     } catch (error) {
       console.error(error)

@@ -51,7 +51,19 @@ const AddBook = () => {
     })
 
     try {
-      await axios.post(`${API_BASE}/api/book`, payload)
+      const token = localStorage.getItem('admin-Token')
+      if (!token) {
+        setMessage({ type: 'error', text: 'Admin not authenticated'})
+        setLoading(false)
+        return;
+      }
+      await axios.post(`${API_BASE}/api/book`, payload,
+        {
+      headers: {
+        Authorization: `Bearer ${token}`, 
+      },
+    }
+      )
       setMessage({ type: 'success', text: 'Book added successfully'})
       setFormData(initialFormData)
     } catch (error) {
