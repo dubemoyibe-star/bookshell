@@ -193,14 +193,14 @@ const ActivityTab = () => {
 
       {/* Activity Modal */}
      {selectedActivity && (
-  <div className='fixed inset-0 bg-black/50 backdrop-blur-[2px] flex items-center justify-center z-50 p-4'>
-    <motion.div
-      initial={{ scale: 0.9, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      transition={{ duration: 0.3 }}
-      className='bg-white rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto'
-    >
-      {/* HEADER */}
+    <div className='fixed inset-0 bg-black/50 backdrop-blur-[2px] flex items-center justify-center z-50 p-4'>
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.3 }}
+        className='bg-white rounded-2xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto'
+      >
+
       <div className='flex justify-between items-center border-b px-6 py-4'>
         <div>
           <h2 className='text-xl font-semibold text-gray-800'>
@@ -258,7 +258,6 @@ const ActivityTab = () => {
 
             <div className='flex gap-5 items-start bg-gray-50 rounded-xl border border-gray-200 p-4'>
 
-              {/* Book Cover */}
               <div className='flex-shrink-0'>
                 {selectedActivity.details.image ? (
                   <img
@@ -273,7 +272,6 @@ const ActivityTab = () => {
                 )}
               </div>
 
-              {/* Book Info */}
               <div className='flex-1 space-y-3'>
 
                 <div>
@@ -290,7 +288,7 @@ const ActivityTab = () => {
                   </p>
                 </div>
 
-                <div className='flex items-center justify-between pt-2 border-t'>
+                <div className='flex flex-col items-start sm:flex-row items-center justify-between pt-2 border-t'>
                   <span className='text-xs uppercase tracking-wide text-gray-400'>
                     Price:
                   </span>
