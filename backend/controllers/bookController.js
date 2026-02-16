@@ -18,8 +18,8 @@ export const createBook = async (req, res, next) => {
       category,
       description,
       image: {
-        url: req.file.secure_url,
-        public_id: req.file.public_id
+        url: req.file.path,
+        public_id: req.file.filename
       }
     })
     const saved = await book.save();
