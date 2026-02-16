@@ -12,7 +12,7 @@ orderRouter.get('/confirm', authMiddleware, confirmPayment);
 //public route
 orderRouter.get('/', adminAuth, getOrders);
 orderRouter.get('/user', authMiddleware, getUserOrders)
-orderRouter.get('/:id', adminAuth , getOrderById)
+orderRouter.get('/:id', getOrderById)
 orderRouter.put('/:id', adminAuth , updateOrder)
 
 orderRouter.delete('/:id', deleteOrder)

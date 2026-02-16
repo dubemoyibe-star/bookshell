@@ -202,7 +202,7 @@ const handleGoogleLogin = async () => {
               disabled={isSubmitting}
               className="cursor-pointer w-full bg-[#43C6AC] text-white py-3 rounded-lg hover:bg-[#368f7a] transition-colors"
             >
-              {isSubmitting ? "Creating Account..." : "Create Account"}
+              {isSubmitting ? "Logging In..." : "Log In"}
             </button>
 
             <div className="flex items-center my-4 w-full">

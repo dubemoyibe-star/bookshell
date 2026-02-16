@@ -61,7 +61,6 @@ const MyOrders = () => {
           }
         })
         setOrders(data)
-        console.log('User orders:', data)
       } catch (error) {
         console.error('Failed to load user orders', error)
       }

@@ -12,6 +12,9 @@ export default async function authMiddleware(req, res, next) {
 
   try {
     const payload = jwt.verify(token, JWT_SECRET)
+    if(payload.exp < Date.now() / 1000) {
+      return res.status(401).json({ success: false, message: 'Token expired'})
+    }
     const user = await userModel.findById(payload.id).select('-password')
     if(!user) {
       return res.status(401).json({ success: false, message: 'User not found'})
