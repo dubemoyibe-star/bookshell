@@ -137,17 +137,10 @@ const Login = () => {
                 {isSubmitting ? "Signing in..." : "Sign In"}
               </button>
             </form>
-
-            <div className="mt-6 text-center text-gray-600">
-                  Dont have an account?{" "}
-                  <Link to='/signup' className="text-[#43C6AC] hover:underline">
-                    Create Account
-                  </Link>
-            </div>
           </>
         ) : (
           <div className="text-center">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">Already logged in</h2>
+            <h2 className="text-xl font-bold text-gray-800 mb-4">Welcome Back!</h2>
             <button
               onClick={() => navigate("/orders")}
               className="cursor-pointer w-full bg-[#43C6AC] text-white py-3 rounded-lg hover:bg-[#368f7a] transition-colors mb-2"
