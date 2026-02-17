@@ -3,8 +3,8 @@ import { registerAdmin, loginAdmin, getActivity } from '../controllers/adminCont
 import adminAuth from '../middleware/adminAuth.js';
 
 const adminRouter = express.Router();
-
-adminRouter.post("/register", registerAdmin);
+//register route isnt supposed to be active until a new admin is to be added
+// adminRouter.post("/register", registerAdmin);
 adminRouter.post("/login", loginAdmin);
 adminRouter.get('/activity', adminAuth ,getActivity)
 
