@@ -1,4 +1,4 @@
-# 📚 BookShell - Online Book Marketplace
+#  BookShell - Online Book Marketplace
 
 <p align="center">
   <img src="https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react" alt="React">
@@ -11,7 +11,7 @@ BookShell is a full-stack e-commerce platform for buying and selling books onlin
 
 ---
 
-## 🏗️ Project Architecture
+##  Project Architecture
 
 The project consists of three main applications:
 
@@ -23,30 +23,30 @@ The project consists of three main applications:
 
 ---
 
-## ✨ Features
+##  Features
 
 ### Customer (Frontend)
-- 📖 **Browse Books** - View books by category with search and filtering
-- 🔍 **Search** - Find books by title or author
+-  **Browse Books** - View books by category with search and filtering
+-  **Search** - Find books by title or author
 - 🛒 **Shopping Cart** - Add/remove items with quantity adjustment
-- 👤 **User Authentication** - Secure sign up/sign in via Firebase
-- 💳 **Checkout** - Multiple payment methods (Paystack, Stripe, Cash on Delivery)
-- 📦 **Order Tracking** - View order history and status
+-  **User Authentication** - Secure sign up/sign in via Firebase
+-  **Checkout** - Multiple payment methods (Paystack, Stripe, Cash on Delivery)
+-  **Order Tracking** - View order history and status
 
 ### Admin Dashboard
-- 📚 **Book Management** - Add, edit, and delete books with image upload
-- 📋 **Order Management** - View and update order status (Pending → Processing → Shipped → Delivered)
-- 📊 **Dashboard Overview** - View order statistics and activity
-- 🔐 **Admin Authentication** - Secure admin login
+-  **Book Management** - Add, edit, and delete books with image upload
+-  **Order Management** - View and update order status (Pending → Processing → Shipped → Delivered)
+-  **Dashboard Overview** - View order statistics and activity
+-  **Admin Authentication** - Secure admin login
 
 ### Backend API
-- 🔒 **JWT Authentication** - Secure API endpoints
-- ☁️ **Cloud Storage** - Image upload to Cloudinary
-- 💳 **Payment Integration** - Stripe and Paystack support
+-  **JWT Authentication** - Secure API endpoints
+-  **Cloud Storage** - Image upload to Cloudinary
+-  **Payment Integration** - Stripe and Paystack support
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 ### Frontend & Admin
 | Technology | Purpose |
@@ -72,7 +72,7 @@ The project consists of three main applications:
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 
@@ -167,7 +167,7 @@ PAYSTACK_SECRET_KEY=your_paystack_secret_key
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 bookshell/
@@ -198,7 +198,7 @@ bookshell/
 
 ---
 
-## 🔌 API Endpoints
+##  API Endpoints
 
 ### Books
 | Method | Endpoint | Description |
@@ -235,7 +235,7 @@ bookshell/
 
 ---
 
-## 💳 Payment Methods
+##  Payment Methods
 
 BookShell supports multiple payment options:
 - **Online Payment** - Paystack and Stripe integration
@@ -243,7 +243,7 @@ BookShell supports multiple payment options:
 
 ---
 
-## 🧪 Environment Variables Required
+##  Environment Variables Required
 
 ### Frontend (.env)
 ```env
